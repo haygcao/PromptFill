@@ -951,6 +951,8 @@ const App = () => {
   const [sharedTemplateData, setSharedTemplateData] = useState(null);
   const [showShareImportModal, setShowShareImportModal] = useState(false);
   const [showShareOptionsModal, setShowShareOptionsModal] = useState(false);
+  const [showImportTokenModal, setShowImportTokenModal] = useState(false);
+  const [importTokenValue, setImportTokenValue] = useState("");
 
   // 计算分享 URL（带长度检查）
   const shareUrlMemo = useMemo(() => {
@@ -2978,6 +2980,7 @@ const App = () => {
             handleDeleteTemplate={handleDeleteTemplate}
             handleAddTemplate={handleAddTemplate}
             handleManualTokenImport={handleManualTokenImport}
+            setShowImportTokenModal={setShowImportTokenModal}
             INITIAL_TEMPLATES_CONFIG={INITIAL_TEMPLATES_CONFIG}
               editingTemplateNameId={editingTemplateNameId}
               tempTemplateName={tempTemplateName}
@@ -3537,6 +3540,78 @@ const App = () => {
                       {language === 'cn' ? '适合微信分享，不易被拦截' : 'Best for WeChat, anti-blocking'}
                     </span>
                   </div>
+                </PremiumButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- Import Token Modal --- */}
+      {showImportTokenModal && (
+        <div 
+          className="fixed inset-0 z-[1000] bg-black/40 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300"
+          onClick={() => {
+            setShowImportTokenModal(false);
+            setImportTokenValue("");
+          }}
+        >
+          <div 
+            className={`w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden border animate-scale-up ${isDarkMode ? 'bg-[#242120] border-white/5' : 'bg-white border-gray-100'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-8 relative">
+              <button 
+                onClick={() => {
+                  setShowImportTokenModal(false);
+                  setImportTokenValue("");
+                }}
+                className={`absolute top-6 right-6 p-2 rounded-full transition-all ${isDarkMode ? 'text-gray-500 hover:text-white hover:bg-white/5' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}
+              >
+                <X size={20} />
+              </button>
+              <h3 className={`text-xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                {language === 'cn' ? '导入模版' : 'Import Template'}
+              </h3>
+              <p className={`text-xs font-bold mb-6 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                {language === 'cn' ? '请输入分享口令或链接' : 'Please enter share token or link'}
+              </p>
+
+              <div className="space-y-4">
+                <div className={`relative group ${isDarkMode ? 'dark' : 'light'}`}>
+                  <input 
+                    autoFocus
+                    type="text" 
+                    value={importTokenValue} 
+                    onChange={(e) => setImportTokenValue(e.target.value)}
+                    placeholder={language === 'cn' ? '粘贴口令或链接...' : 'Paste token or link...'}
+                    className={`w-full px-5 py-4 text-sm font-semibold rounded-2xl transition-all duration-300 border-2 outline-none ${
+                      isDarkMode 
+                        ? 'bg-black/20 border-white/10 text-white focus:border-orange-500/50' 
+                        : 'bg-gray-50 border-gray-100 text-gray-800 focus:border-orange-500/30'
+                    }`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleManualTokenImport(importTokenValue);
+                        setShowImportTokenModal(false);
+                        setImportTokenValue("");
+                      }
+                    }}
+                  />
+                </div>
+
+                <PremiumButton 
+                  onClick={() => {
+                    handleManualTokenImport(importTokenValue);
+                    setShowImportTokenModal(false);
+                    setImportTokenValue("");
+                  }}
+                  active={true}
+                  isDarkMode={isDarkMode}
+                  className="w-full size-lg"
+                  icon={Download}
+                >
+                  {t('confirm')}
                 </PremiumButton>
               </div>
             </div>

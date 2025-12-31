@@ -41,6 +41,7 @@ export const TemplatesSidebar = React.memo(({
   handleDeleteTemplate,
   handleAddTemplate,
   handleManualTokenImport,
+  setShowImportTokenModal,
   INITIAL_TEMPLATES_CONFIG,
   editingTemplateNameId,
   tempTemplateName,
@@ -89,9 +90,13 @@ export const TemplatesSidebar = React.memo(({
              <div className="flex items-center">
                   <PremiumButton
                       onClick={() => {
-                        const val = prompt(language === 'cn' ? '请输入分享口令或链接' : 'Please enter share token or link');
-                        if (val && typeof handleManualTokenImport === 'function') {
-                          handleManualTokenImport(val);
+                        if (typeof setShowImportTokenModal === 'function') {
+                          setShowImportTokenModal(true);
+                        } else {
+                          const val = prompt(language === 'cn' ? '请输入分享口令或链接' : 'Please enter share token or link');
+                          if (val && typeof handleManualTokenImport === 'function') {
+                            handleManualTokenImport(val);
+                          }
                         }
                       }}
                       icon={Download}
