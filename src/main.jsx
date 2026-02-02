@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.jsx'
+import PrivacyPage from './pages/PrivacyPage.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -16,7 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
         {/* 其他路由未来可以在这里添加 */}
         {/* <Route path="/about" element={<AboutPage />} /> */}
-        {/* <Route path="/privacy" element={<PrivacyPage />} /> */}
+        <Route path="/privacy" element={<PrivacyPage />} />
 
         {/* 404 页面：暂时重定向到首页 */}
         <Route path="*" element={<App />} />
