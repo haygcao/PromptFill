@@ -10,16 +10,18 @@ const API_BASE_URL =
 const isTauriEnv = () => !!(window.__TAURI_INTERNALS__ || window.__TAURI_IPC__ || window.location.protocol === 'tauri:');
 
 const fetchJson = async (url, options = {}) => {
+  const method = options.method || 'GET';
   if (isTauriEnv()) {
     try {
       const { fetch } = await import('@tauri-apps/plugin-http');
-      const res = await fetch(url, { method: 'GET', ...options });
+      const res = await fetch(url, { ...options, method });
       if (!res.ok) {
         const text = await res.text().catch(() => "");
         throw new Error(`HTTP ${res.status} ${text ? `- ${text.slice(0, 120)}` : ''}`.trim());
       }
       return await res.json();
     } catch (error) {
+      console.error('[Tauri Fetch Error]', error);
       throw error;
     }
   }
@@ -109,11 +111,13 @@ export const useShareFunctions = (
   const [isPrefetching, setIsPrefetching] = useState(false); // 新增：是否正在后台取码
   const [shareImportError, setShareImportError] = useState(null);
   const [isImportingShare, setIsImportingShare] = useState(false);
+  const [shortCodeError, setShortCodeError] = useState(null);
 
   // 当模板改变时重置预取码
   useEffect(() => {
     setPrefetchedShortCode(null);
     setIsPrefetching(false);
+    setShortCodeError(null);
   }, [activeTemplate]);
 
   // 计算分享 URL（保留作为兜底的长链接预览，但在实际分享时会尝试生成短链）
@@ -214,24 +218,16 @@ export const useShareFunctions = (
     if (!API_BASE_URL || API_BASE_URL.includes('example.com')) return null;
 
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3秒超时
-
-      const res = await fetch(API_BASE_URL, {
+      const result = await fetchJson(API_BASE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: compressedData }),
-        signal: controller.signal
       });
       
-      clearTimeout(timeoutId);
-
-      if (!res.ok) throw new Error(`Server returned ${res.status}`);
-      
-      const result = await res.json();
-      return result.code;
+      return result?.code;
     } catch (e) {
       console.warn("Failed to get short code (falling back to long link):", e.message);
+      setShortCodeError(e?.message || String(e));
       return null;
     }
   }, []);
@@ -455,10 +451,13 @@ export const useShareFunctions = (
     // 开始预取短码，避免在点击复制时才请求导致剪贴板权限丢失
     if (activeTemplate && !prefetchedShortCode && !isPrefetching) {
       setIsPrefetching(true);
+      setShortCodeError(null);
       const compressed = compressTemplate(activeTemplate, banks, categories);
       getShortCodeFromServer(compressed).then(code => {
         if (code) setPrefetchedShortCode(code);
+        if (!code) setShortCodeError(language === 'cn' ? '短链接生成失败，已回退为长链接' : 'Short link generation failed; using long link');
       }).catch(() => {
+        setShortCodeError(language === 'cn' ? '短链接生成失败，已回退为长链接' : 'Short link generation failed; using long link');
       }).finally(() => {
         setIsPrefetching(false);
       });
@@ -473,37 +472,50 @@ export const useShareFunctions = (
     
     setIsGenerating(true);
     try {
-      console.log('[Share] Generating content...');
       const compressed = compressTemplate(activeTemplate, banks, categories);
-      
-      // 优先使用预取的短码
       let finalShareData = prefetchedShortCode;
       
       if (!finalShareData) {
-        console.log('[Share] No prefetched code, attempting quick fetch...');
-        // 如果没有预取到，尝试获取（限制在短时间内）
         try {
-          // 这里可以考虑如果不愿意冒险丢失手势，直接用 compressed
-          // 但既然用户点击了，我们还是尝试一下，如果 500ms 没回来就放弃
           const shortCode = await Promise.race([
             getShortCodeFromServer(compressed),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 800))
+            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1000))
           ]);
-          if (shortCode) {
-            finalShareData = shortCode;
-          } else {
-            finalShareData = compressed;
-          }
+          if (shortCode) finalShareData = shortCode;
         } catch (e) {
           finalShareData = compressed;
-          console.warn('[Share] Short code fetch failed or timeout, using long link');
+          if (!shortCodeError) {
+            setShortCodeError(language === 'cn' ? '短链接生成失败，已回退为长链接' : 'Short link generation failed; using long link');
+          }
         }
       }
       
       const isTauri = !!(window.__TAURI_INTERNALS__ || window.__TAURI_IPC__ || window.location.protocol === 'tauri:');
       const base = PUBLIC_SHARE_URL || (isTauri ? 'https://aipromptfill.com' : (window.location.origin + window.location.pathname));
-      const fullUrl = `${base}${base.endsWith('/') ? '' : '/'}#/share?share=${finalShareData}`;
+      const fullUrl = `${base}${base.endsWith('/') ? '' : '/'}#/share?share=${finalShareData || compressed}`;
 
+      // --- iOS 原生分享逻辑 ---
+      const templateName = getLocalized(activeTemplate.name, language);
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `Prompt分享: ${templateName}`,
+            text: `分享一个不错的 AI 提示词模版：${templateName}`,
+            url: fullUrl,
+          });
+          setShowShareOptionsModal(false);
+          return;
+        } catch (shareErr) {
+          if (shareErr.name !== 'AbortError') {
+            console.warn('Native share failed, falling back to clipboard:', shareErr);
+          } else {
+            setIsGenerating(false);
+            return;
+          }
+        }
+      }
+
+      // --- 兜底：复制到剪贴板 ---
       const success = await copyToClipboard(fullUrl);
       if (success) {
         alert(t('share_success'));
@@ -553,13 +565,24 @@ export const useShareFunctions = (
     }
   }, [activeTemplate, language, getShortCodeFromServer, banks, categories, prefetchedShortCode]);
 
-  // 计算分享 URL（仅显示短码链接）
+  // 计算分享 URL（优先显示短码链接，失败则显示长链接作为兜底）
   const currentShareUrl = useMemo(() => {
-    if (!activeTemplate || !prefetchedShortCode) return null;
+    if (!activeTemplate) return null;
     
-    const base = 'https://aipromptfill.com';
-    return `${base}${base.endsWith('/') ? '' : '/'}#/share?share=${prefetchedShortCode}`;
-  }, [activeTemplate, prefetchedShortCode]);
+    // 如果短码获取成功，拼装短链
+    if (prefetchedShortCode) {
+      const isTauri = !!(window.__TAURI_INTERNALS__ || window.__TAURI_IPC__ || window.location.protocol === 'tauri:');
+      const base = PUBLIC_SHARE_URL || (isTauri ? 'https://aipromptfill.com' : (window.location.origin + window.location.pathname));
+      return `${base}${base.endsWith('/') ? '' : '/'}#/share?share=${prefetchedShortCode}`;
+    }
+    
+    // 如果不在加载中，说明获取可能失败了，返回长链接
+    if (!isPrefetching) {
+      return shareUrlMemo;
+    }
+    
+    return null;
+  }, [activeTemplate, prefetchedShortCode, isPrefetching, shareUrlMemo]);
 
   return {
     // 状态
@@ -591,5 +614,7 @@ export const useShareFunctions = (
     shareImportError,
     setShareImportError,
     isImportingShare,
+    shortCodeError,
+    setShortCodeError,
   };
 };

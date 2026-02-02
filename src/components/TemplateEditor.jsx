@@ -74,7 +74,7 @@ export const TemplateEditor = React.memo(({
   fileInputRef,
   setShowImageUrlInput,
   handleResetImage,
-  handleDeleteImage,
+  requestDeleteImage,
   setImageUpdateMode,
   setCurrentImageEditIndex,
 
@@ -483,7 +483,7 @@ export const TemplateEditor = React.memo(({
                     fileInputRef={fileInputRef}
                     setShowImageUrlInput={setShowImageUrlInput}
                     handleResetImage={handleResetImage}
-                    handleDeleteImage={handleDeleteImage}
+                    requestDeleteImage={requestDeleteImage}
                     language={templateLanguage}
                     setLanguage={setTemplateLanguage}
                     TEMPLATE_TAGS={TEMPLATE_TAGS}

@@ -26,7 +26,7 @@ export const TemplatePreview = React.memo(({
   fileInputRef,
   setShowImageUrlInput,
   handleResetImage,
-  handleDeleteImage,
+  requestDeleteImage,
   language,
   setLanguage,
   // 标签编辑相关
@@ -736,7 +736,7 @@ export const TemplatePreview = React.memo(({
                                     </button>
                                     {currentImageUrl && (
                                         <button 
-                                            onClick={(e) => { e.stopPropagation(); if(confirm('确定要删除这张图片吗？')) handleDeleteImage(); }}
+                                            onClick={(e) => requestDeleteImage(e)}
                                             className={`p-2.5 rounded-full transition-all shadow-lg ${isDarkMode ? 'bg-black/60 text-red-400 hover:bg-red-500 hover:text-white' : 'bg-white/90 text-red-500 hover:bg-red-500 hover:text-white'}`}
                                             title="删除当前图片"
                                         >
@@ -775,43 +775,43 @@ export const TemplatePreview = React.memo(({
                                 )}
                             </div>
                             
-                            {/* Add Image Button below the image box */}
-                            <div className="mt-2 flex gap-2 justify-center">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setImageUpdateMode('add');
-                                        fileInputRef.current?.click();
-                                    }}
-                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-gray-500 hover:text-orange-400 border-white/5' : 'bg-gray-50 hover:bg-orange-50 text-gray-500 hover:text-orange-600 border-gray-100'}`}
-                                >
-                                    <Plus size={14} />
-                                    本地图片
-                                </button>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setImageUpdateMode('add');
-                                        setShowImageUrlInput(true);
-                                    }}
-                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-gray-500 hover:text-orange-400 border-white/5' : 'bg-gray-50 hover:bg-orange-50 text-gray-500 hover:text-orange-600 border-gray-100'}`}
-                                >
-                                    <Globe size={14} />
-                                    网络链接
-                                </button>
-                                {currentImageUrl && (
+                            {/* Add Image Button below the image box (only when image exists) */}
+                            {currentImageUrl && (
+                                <div className="mt-2 flex gap-2 justify-center">
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            if(confirm('确定要删除这张图片吗？')) handleDeleteImage();
+                                            setImageUpdateMode('add');
+                                            fileInputRef.current?.click();
+                                        }}
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-gray-500 hover:text-orange-400 border-white/5' : 'bg-gray-50 hover:bg-orange-50 text-gray-500 hover:text-orange-600 border-gray-100'}`}
+                                    >
+                                        <Plus size={14} />
+                                        本地图片
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setImageUpdateMode('add');
+                                            setShowImageUrlInput(true);
+                                        }}
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-gray-500 hover:text-orange-400 border-white/5' : 'bg-gray-50 hover:bg-orange-50 text-gray-500 hover:text-orange-600 border-gray-100'}`}
+                                    >
+                                        <Globe size={14} />
+                                        网络链接
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            requestDeleteImage(e);
                                         }}
                                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${isDarkMode ? 'bg-white/5 hover:bg-red-500/20 text-red-400 hover:text-red-500 border-white/5' : 'bg-red-50 hover:bg-red-100 text-red-500 border-red-100'}`}
                                     >
                                         <Trash2 size={14} />
                                         删除图片
                                     </button>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

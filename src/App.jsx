@@ -764,6 +764,7 @@ const App = () => {
     shareImportError,
     setShareImportError,
     isImportingShare,
+    shortCodeError,
     setSharedTemplateData,
     setShowShareImportModal,
     setShowShareOptionsModal,
@@ -1601,6 +1602,17 @@ const App = () => {
       setCurrentImageEditIndex(0);
   };
 
+  const requestDeleteImage = React.useCallback((e) => {
+    if (e) e.stopPropagation();
+    openActionConfirm({
+      title: language === 'cn' ? '删除图片' : 'Delete Image',
+      message: language === 'cn' ? '确定要删除这张图片吗？' : 'Delete this image?',
+      confirmText: language === 'cn' ? '删除' : 'Delete',
+      cancelText: language === 'cn' ? '取消' : 'Cancel',
+      onConfirm: handleDeleteImage,
+    });
+  }, [language, handleDeleteImage, openActionConfirm]);
+
   const handleSetImageUrl = () => {
       if (!imageUrlInput.trim()) return;
       
@@ -2123,14 +2135,6 @@ const App = () => {
         .replace(/###\s/g, '')
         .replace(/\*\*(.*?)\*\*/g, '$1')
         .replace(/\n\s*\n/g, '\n\n');
-
-    // 自动追加出图平台建议（如果有）
-    if (activeTemplate.bestModel) {
-      const platformText = language === 'cn' 
-        ? `\n\n[推荐出图平台: ${activeTemplate.bestModel}]`
-        : `\n\n[Recommended Platform: ${activeTemplate.bestModel}]`;
-      cleanText += platformText;
-    }
 
     copyToClipboard(cleanText).then((success) => {
       if (success) {
@@ -2955,7 +2959,7 @@ const App = () => {
               fileInputRef={fileInputRef}
               setShowImageUrlInput={setShowImageUrlInput}
               handleResetImage={handleResetImage}
-              handleDeleteImage={handleDeleteImage}
+              requestDeleteImage={requestDeleteImage}
               setImageUpdateMode={setImageUpdateMode}
               setCurrentImageEditIndex={setCurrentImageEditIndex}
 
@@ -2989,40 +2993,44 @@ const App = () => {
             {/* Image URL Input Modal - 保持在 TemplateEditor 外部 */}
             {showImageUrlInput && (
               <div
-                className="fixed inset-0 z-[90] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+                className="fixed inset-0 z-[1000] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
                 onClick={() => { setShowImageUrlInput(false); setImageUrlInput(""); }}
               >
                 <div
-                  className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full"
+                  className={`w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border ${isDarkMode ? 'bg-[#1C1917] border-white/10' : 'bg-white border-gray-100'}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <Globe size={20} className="text-blue-500" />
-                    {t('image_url')}
-                  </h3>
-                  <input
-                    autoFocus
-                    type="text"
-                    value={imageUrlInput}
-                    onChange={(e) => setImageUrlInput(e.target.value)}
-                    placeholder={t('image_url_placeholder')}
-                    className="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    onKeyDown={(e) => e.key === 'Enter' && handleSetImageUrl()}
-                  />
-                  <div className="flex gap-3">
-                    <button
-                      onClick={handleSetImageUrl}
-                      disabled={!imageUrlInput.trim()}
-                      className="flex-1 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-                    >
-                      {t('use_url')}
-                    </button>
-                    <button
-                      onClick={() => { setShowImageUrlInput(false); setImageUrlInput(""); }}
-                      className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all"
-                    >
-                      {t('cancel')}
-                    </button>
+                  <div className={`p-6 flex items-center gap-2 ${isDarkMode ? 'bg-white/[0.02]' : 'bg-gray-50/60'}`}>
+                    <Globe size={20} className={`${isDarkMode ? 'text-orange-400' : 'text-blue-500'}`} />
+                    <h3 className={`text-lg font-black tracking-tight ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                      {t('image_url')}
+                    </h3>
+                  </div>
+                  <div className="p-6">
+                    <input
+                      autoFocus
+                      type="text"
+                      value={imageUrlInput}
+                      onChange={(e) => setImageUrlInput(e.target.value)}
+                      placeholder={t('image_url_placeholder')}
+                      className={`w-full px-4 py-3 text-sm rounded-lg mb-4 focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-white/5 border border-white/10 text-gray-100 placeholder:text-gray-500 focus:ring-orange-500/40' : 'border border-gray-300 text-gray-800 focus:ring-blue-500 focus:border-blue-500'}`}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSetImageUrl()}
+                    />
+                    <div className="flex gap-3">
+                      <button
+                        onClick={handleSetImageUrl}
+                        disabled={!imageUrlInput.trim()}
+                        className={`flex-1 px-4 py-2.5 text-sm font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed ${isDarkMode ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'}`}
+                      >
+                        {t('use_url')}
+                      </button>
+                      <button
+                        onClick={() => { setShowImageUrlInput(false); setImageUrlInput(""); }}
+                        className={`flex-1 px-4 py-2.5 text-sm font-bold rounded-lg transition-all ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
+                      >
+                        {t('cancel')}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3076,6 +3084,7 @@ const App = () => {
         isPrefetching={isPrefetching}
         isDarkMode={isDarkMode}
         language={language}
+        shortCodeError={shortCodeError}
       />
       <ImportTokenModal
         isOpen={showImportTokenModal}

@@ -5203,6 +5203,84 @@
           "en": "Minimalist, negative space with minimal decoration"
         }
       ]
+    },
+    "anatomy_teaching_style": {
+      "label": {
+        "cn": "解剖教学风格",
+        "en": "Anatomy Teaching Style"
+      },
+      "category": "visual",
+      "options": [
+        {
+          "cn": "Proko 风格（简化几何、教学导向、清晰构造线）",
+          "en": "Proko style (simplified geometry, educational focus, clear construction lines)"
+        },
+        {
+          "cn": "Hampton 风格（构造线、体块分析、结构化方法）",
+          "en": "Hampton style (construction lines, form analysis, structural approach)"
+        },
+        {
+          "cn": "Vilppu 风格（手势素描、流畅线条、动态感）",
+          "en": "Vilppu style (gesture drawing, flowing lines, dynamic feeling)"
+        },
+        {
+          "cn": "Bammes 风格（德国解剖学、精确构造、科学方法）",
+          "en": "Bammes style (German anatomy, precise construction, scientific method)"
+        },
+        {
+          "cn": "Loomis 风格（经典比例、标准人体、结构化）",
+          "en": "Loomis style (classic proportions, standard human figure, structured)"
+        },
+        {
+          "cn": "Bridgman 风格（体块分析、建筑感、厚重体积）",
+          "en": "Bridgman style (mass analysis, architectural feel, heavy volume)"
+        },
+        {
+          "cn": "Hogarth 风格（动态夸张、戏剧性线条、肌肉强调）",
+          "en": "Hogarth style (dynamic exaggeration, dramatic lines, muscle emphasis)"
+        },
+        {
+          "cn": "医学解剖学教材风格（精确、科学、详细标注）",
+          "en": "Medical anatomy textbook style (precise, scientific, detailed labels)"
+        }
+      ]
+    },
+    "construction_line_color": {
+      "label": {
+        "cn": "构造线颜色",
+        "en": "Construction Line Color"
+      },
+      "category": "visual",
+      "options": [
+        {
+          "cn": "紫色/紫罗兰色（主构造线）",
+          "en": "Purple/violet sketch lines (primary construction)"
+        },
+        {
+          "cn": "青色/绿松石色（方向指引线）",
+          "en": "Cyan/turquoise directional guidelines"
+        },
+        {
+          "cn": "蓝色（专业构造线）",
+          "en": "Blue professional construction lines"
+        },
+        {
+          "cn": "红色（强调高亮线）",
+          "en": "Red accent highlight lines"
+        },
+        {
+          "cn": "橙色（活力高亮线）",
+          "en": "Orange energetic highlight lines"
+        },
+        {
+          "cn": "绿色（辅助参考线）",
+          "en": "Green auxiliary reference lines"
+        },
+        {
+          "cn": "多色混合（紫/青/蓝组合）",
+          "en": "Multi-color combination (purple/cyan/blue mix)"
+        }
+      ]
     }
   },
   "defaults": {
@@ -5729,6 +5807,14 @@
     "room_condition": {
       "cn": "精致装修，高档材料的质感与细节",
       "en": "Exquisitely decorated, high-end materials with refined details"
+    },
+    "anatomy_teaching_style": {
+      "cn": "Proko 风格（简化几何、教学导向、清晰构造线）",
+      "en": "Proko style (simplified geometry, educational focus, clear construction lines)"
+    },
+    "construction_line_color": {
+      "cn": "紫色/紫罗兰色（主构造线）",
+      "en": "Purple/violet sketch lines (primary construction)"
     }
   },
   "categories": {

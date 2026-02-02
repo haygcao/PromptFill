@@ -18,7 +18,7 @@ import { WaypointsIcon } from '../icons/WaypointsIcon';
  * @param {string} props.language - 当前语言
  * @param {string} props.shareCode - 分享码
  */
-const ShareOptionsModal = ({ isOpen, onClose, onCopyLink, onCopyToken, shareUrl, shareCode, isGenerating, isPrefetching, isDarkMode, language }) => {
+const ShareOptionsModal = ({ isOpen, onClose, onCopyLink, onCopyToken, shareUrl, shareCode, isGenerating, isPrefetching, isDarkMode, language, shortCodeError }) => {
   if (!isOpen) return null;
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -62,6 +62,12 @@ const ShareOptionsModal = ({ isOpen, onClose, onCopyLink, onCopyToken, shareUrl,
                   </span>
                 )}
               </div>
+            </div>
+          )}
+
+          {shortCodeError && !isPrefetching && (
+            <div className="mb-4 px-3 py-2 rounded-xl text-[11px] font-bold border border-orange-500/30 text-orange-500 bg-orange-500/10">
+              {language === 'cn' ? `短链接生成失败：${shortCodeError}` : `Short link failed: ${shortCodeError}`}
             </div>
           )}
 

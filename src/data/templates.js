@@ -36,7 +36,7 @@
 /**
  * 模板系统版本号，每次更新 templates.js 或 banks.js 时请更新此版本号
  */
-export const SYSTEM_DATA_VERSION = "0.8.7";
+export const SYSTEM_DATA_VERSION = "0.8.8";
 
 /**
  * 分享功能正式环境域名（扫码导入需使用公网可访问地址）
@@ -1843,6 +1843,65 @@ export const TEMPLATE_TAGS = [
   "节日"
 ];
 
+export const TEMPLATE_ANATOMY_FIGURE_STUDY = {
+  cn: `### 解剖学人物画研究 (Anatomical Figure Drawing Study)
+
+几何人体模型分解，将人体姿态参考照片放置在左上角（小缩略图），主区域展示结构解剖素描。
+
+**几何构造 (GEOMETRIC CONSTRUCTION):**
+- 四肢（手臂、腿部、颈部）使用圆柱体形式
+- 躯干、骨盆、脚部使用盒子/楔形形状
+- 肩部、肘部、膝盖、手腕处使用球形关节
+- 头部使用倒角立方体，并标示面部平面
+- {{anatomy_teaching_style}}
+
+**风格规格 (STYLE SPECIFICATIONS):**
+- {{construction_line_color}}
+- 松弛的手势线条，可见构造笔触
+- 半透明的重叠形式展示深度
+- 地平线标记在人物地面平面上
+- 如果姿势复杂，展示同一姿势的多个观察角度
+
+**艺术方法 (ARTISTIC APPROACH):**
+- 人物画研究美学
+- 教育插图质量
+- 白色/米白色背景
+- 手绘铅笔素描外观
+
+**构图 (COMPOSITION):**
+- 参考照片：左上角，小比例
+- 几何分解：填充画布剩余的 80%
+- 干净的专业布局，类似解剖学教科书`,
+  en: `### Anatomical Figure Drawing Study
+
+Geometric mannequin breakdown of human pose reference photo placed in top-left corner (small thumbnail), main area shows structural anatomy sketch.
+
+**GEOMETRIC CONSTRUCTION:**
+- Cylindrical forms for limbs (arms, legs, neck)
+- Box/wedge shapes for torso, pelvis, feet
+- Spherical joints at shoulders, elbows, knees, wrists
+- Beveled cube for head with facial plane indication
+- {{anatomy_teaching_style}}
+
+**STYLE SPECIFICATIONS:**
+- {{construction_line_color}}
+- Loose gestural linework with visible construction strokes
+- Semi-transparent overlapping forms showing depth
+- Horizon line marked at figure's ground plane
+- Multiple viewing angles of same pose if complex
+
+**ARTISTIC APPROACH:**
+- Figure drawing study aesthetic
+- Educational illustration quality
+- White/off-white background
+- Hand-drawn pencil sketch appearance
+
+**COMPOSITION:**
+- Reference photo: top-left corner, small scale
+- Geometric breakdown: fills remaining 80% of canvas
+- Clean professional layout like anatomy textbook`
+};
+
 /**
  * 系统内置模板列表
  * 
@@ -2653,5 +2712,20 @@ export const INITIAL_TEMPLATES_CONFIG = [
     language: ["cn", "en"],
     bestModel: "Nano Banana Pro",
     baseImage: "no_base_image"
+  },
+  {
+    id: "tpl_anatomy_figure_study",
+    name: { cn: "解剖学人物画研究", en: "Anatomical Figure Drawing Study" },
+    content: TEMPLATE_ANATOMY_FIGURE_STUDY,
+    imageUrl: "https://s3.bmp.ovh/2026/02/02/rcAAVlSX.jpg",
+    author: "Vigo Zhao (@VigoCreativeAI)",
+    selections: {
+      "anatomy_teaching_style": { cn: "Proko 风格（简化几何、教学导向、清晰构造线）", en: "Proko style (simplified geometry, educational focus, clear construction lines)" },
+      "construction_line_color": { cn: "紫色/紫罗兰色（主构造线）", en: "Purple/violet sketch lines (primary construction)" }
+    },
+    tags: ["人物", "创意", "图表"],
+    language: ["cn", "en"],
+    bestModel: "Nano Banana Pro",
+    baseImage: "recommend_base_image"
   }
 ];
