@@ -53,6 +53,19 @@ export const SettingsView = ({
   
   const updateLogs = language === 'cn' ? [
     { 
+      version: 'V0.9.0', 
+      date: '2026年2月8日', 
+      time: '07:00 PM',
+      title: '视频模版深度支持与移动端体验优化',
+      type: 'MAJOR',
+      content: [
+        '✨ 视频模版深度支持：新增视频预览、封面管理及参考素材多源上传功能。',
+        '📱 移动端编辑重构：采用“上二下一”新布局，文字区域宽度提升至 60%，预览支持横向滑动。',
+        '⚡ 交互优化：手机端编辑或滑动正文时，信息区域支持自动折叠，释放更多创作空间。',
+        '🎨 视觉微调：优化了上传控件尺寸与标签显示逻辑，界面更加清爽紧凑。'
+      ]
+    },
+    { 
       version: 'V0.8.2', 
       date: '2026年1月31日', 
       time: '11:50 PM',
@@ -262,6 +275,19 @@ export const SettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V0.9.0', 
+      date: 'Feb 8, 2026', 
+      time: '07:00 PM',
+      title: 'Video Template Support & Mobile UX Upgrade',
+      type: 'MAJOR',
+      content: [
+        '✨ Video Support: Added video previews, cover management, and multi-source asset uploads.',
+        '📱 Mobile Refactor: New layout with 60% text width and horizontal scrolling previews.',
+        '⚡ Smart Interaction: Auto-collapsing info section when editing on mobile.',
+        '🎨 UI Refinement: Optimized upload control sizes and label visibility for a cleaner look.'
+      ]
+    },
     { 
       version: 'V0.8.2', 
       date: 'Jan 31, 2026', 
@@ -522,7 +548,7 @@ export const SettingsView = ({
           </h1>
           <div className="flex items-center gap-3 mt-1">
             <span className={`text-[9px] font-black tracking-[0.1em] uppercase ${isDarkMode ? 'text-gray-600' : 'text-gray-500'}`}>
-              System V0.8.2
+              System V0.9.0
             </span>
             <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`} />
             <span className="text-[9px] font-black text-orange-500/80 tracking-[0.1em] uppercase">

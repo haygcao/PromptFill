@@ -11,8 +11,8 @@
 A **structured prompt generation tool** designed specifically for AI painting (GPT, Midjourney, Nano Banana, etc.). Help users quickly build, manage, and iterate complex prompts through a visual "fill-in-the-blank" interaction.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/Version-0.8.2-orange.svg)
-![Data](https://img.shields.io/badge/Data-0.8.7-green.svg)
+![Version](https://img.shields.io/badge/Version-0.9.0-orange.svg)
+![Data](https://img.shields.io/badge/Data-0.9.0-green.svg)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB.svg)
 ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)
@@ -22,10 +22,11 @@ A **structured prompt generation tool** designed specifically for AI painting (G
 
 ## 📝 Foreword
 
-Prompt Fill is now at version **v0.8.2**. The original intention of this project is to solve the problem of hard-to-remember, hard-to-manage, and tedious modification of prompts in the AI painting process. By structuring prompts, creation becomes as simple as "filling in the blanks".
+Prompt Fill is now at version **v0.9.0**. The original intention of this project is to solve the problem of hard-to-remember, hard-to-manage, and tedious modification of prompts in the AI painting process. By structuring prompts, creation becomes as simple as "filling in the blanks".
 
 ### 🌟 Progress & Core Features
 
+*   **✅ Video Template Support**: Full support for video previews and cover management.
 *   **✅ Official AI Support**: AI-powered prompt expansion feature is now live.
 *   **✅ Full Dark Mode Support**: One-click theme switching for desktop and mobile.
 *   **✅ IndexedDB Storage**: Now uses IndexedDB for large data, overcoming the 5MB LocalStorage limit.
@@ -35,7 +36,7 @@ Prompt Fill is now at version **v0.8.2**. The original intention of this project
 *   **✅ HD Social Sharing**: Export beautiful JPG long images with auto-extracted colors.
 *   **✅ Cloud Awareness**: Real-time sync for official templates and features.
 *   **✅ Local Storage**: Private data stored in browser LocalStorage.
-*   **✅ Data Update**: Data version 0.8.7 with author corrections.
+*   **✅ Data Update**: Data version 0.9.0 with video support.
 
 ---
 
@@ -257,8 +258,8 @@ MIT License / [MIT 许可证](LICENSE).
 一个专为 AI 绘画（GPT、Nano Banana 等）设计的**结构化提示词生成工具**。通过可视化的"填空"交互方式，帮助用户快速构建、管理和迭代复杂的 Prompt。
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/Version-0.8.2-orange.svg)
-![Data](https://img.shields.io/badge/Data-0.8.7-green.svg)
+![Version](https://img.shields.io/badge/Version-0.9.0-orange.svg)
+![Data](https://img.shields.io/badge/Data-0.9.0-green.svg)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB.svg)
 ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)
@@ -268,10 +269,11 @@ MIT License / [MIT 许可证](LICENSE).
 
 ## 📝 写在前面
 
-Prompt Fill 现已迭代至 **v0.8.2** 版本。本项目初衷是解决 AI 绘画过程中提示词难记忆、难管理、修改繁琐的问题。通过将 Prompt 结构化，让创作变得像"填空"一样简单。
+Prompt Fill 现已迭代至 **v0.9.0** 版本。本项目初衷是解决 AI 绘画过程中提示词难记忆、难管理、修改繁琐的问题。通过将 Prompt 结构化，让创作变得像"填空"一样简单。
 
 ### 🌟 目前进度与核心功能
 
+*   **✅ 视频模版深度支持**：支持视频预览、封面管理及参考素材多源上传。
 *   **✅ 正式 AI 赋能**：智能词条扩充功能正式上线。
 *   **✅ 全面暗色模式支持**：支持桌面端与移动端的一键主题切换。
 *   **✅ IndexedDB 存储升级**：核心数据已迁移至 IndexedDB，彻底解决 5MB 存储上限问题。
@@ -281,7 +283,7 @@ Prompt Fill 现已迭代至 **v0.8.2** 版本。本项目初衷是解决 AI 绘�
 *   **✅ 高清社交分享**：内置模版封面渲染，支持一键导出精美 JPG 长图。
 *   **✅ 模版/版本感知**：官方模版云端同步感知，无需手动刷新。
 *   **✅ 纯本地存储**：基于浏览器 LocalStorage，数据完全掌握在自己手中。
-*   **✅ 数据持续更新**：数据版本 0.8.7，包含模版作者更正。
+*   **✅ 数据持续更新**：数据版本 0.9.0，支持视频相关内容。
 
 ---
 

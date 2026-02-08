@@ -2148,6 +2148,133 @@
           }
         }
       ]
+    },
+    {
+      "id": "tpl_3x3_storyboard_video",
+      "name": {
+        "cn": "3x3故事板创建视频",
+        "en": "3x3 Storyboard Video Creation"
+      },
+      "type": "video",
+      "content": {
+        "cn": "使用故事板图片创建视频。\n\n将3x3故事板图片转换为视频。",
+        "en": "Create a video using storyboard images.\n\nConvert 3x3 storyboard images into video."
+      },
+      "videoUrl": "https://img.wjwj.top/2026/02/08/c35f4592aa1a3eb23eb3d4e72fdb02ae.mov",
+      "imageUrl": "https://s3.bmp.ovh/2026/02/08/mM0bxzAh.jpg",
+      "author": "Mr.Iancu @Iancu_ai",
+      "selections": {},
+      "tags": [
+        "创意",
+        "设计"
+      ],
+      "language": [
+        "cn",
+        "en"
+      ],
+      "bestModel": "Seedance 2.0",
+      "baseImage": "recommend_base_image",
+      "source": [
+        {
+          "type": "image",
+          "url": "https://s3.bmp.ovh/2026/02/08/mM0bxzAh.jpg",
+          "label": {
+            "cn": "底图素材",
+            "en": "Base Image"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl_cyberpunk_vehicle_chase",
+      "name": {
+        "cn": "赛博朋克飞行器追逐",
+        "en": "Cyberpunk Vehicle Chase"
+      },
+      "type": "video",
+      "content": {
+        "cn": "### 赛博朋克飞行器追逐视频\n\n**电影风格**：{{sci_fi_movie_style}}，高对比度霓虹光影，IMAX电影质感，史诗级配乐感。\n\n**视频时长**：10秒\n\n**分镜脚本**：\n\n[00:00-00:04] 镜头1：{{tracking_camera_shot}}\n画面：{{cyberpunk_city_scene}}，夜幕降临，还在下雨。\n动作：一辆{{futuristic_vehicle}}以极高速度在摩天大楼之间穿梭。\n环境细节（核心测试点）：数不清的巨大全息广告牌在闪烁，霓虹灯光极其复杂地反射在湿滑的玻璃幕墙和飞行器表面。飞行器尾部拉出长长的蓝色光流轨迹。\n\n[00:04-00:07] 镜头2：{{action_camera_shot}}\n动作：飞行器为了躲避障碍物，做了一个急转弯侧滑动作。\n细节：镜头非常贴近飞行器，捕捉每一个细节。\n\n[00:07-00:10] 镜头3：拉远镜头，展现飞行器消失在霓虹闪烁的城市深处。",
+        "en": "### Cyberpunk Vehicle Chase Video\n\n**Movie Style**: {{sci_fi_movie_style}}, high contrast neon lighting, IMAX movie quality, epic soundtrack feel.\n\n**Video Duration**: 10 seconds\n\n**Storyboard Script**:\n\n[00:00-00:04] Shot 1: {{tracking_camera_shot}}\nScene: {{cyberpunk_city_scene}}, night has fallen, it's raining.\nAction: A {{futuristic_vehicle}} weaves through skyscrapers at extreme speed.\nEnvironmental Details (Core Test Point): Countless giant holographic ads flickering, neon lights reflecting complexly off wet glass curtain walls and the vehicle surface. The vehicle's tail creates long blue light trails.\n\n[00:04-00:07] Shot 2: {{action_camera_shot}}\nAction: The vehicle makes a sharp banked turn to dodge obstacles.\nDetails: The camera is extremely close to the vehicle, capturing every detail.\n\n[00:07-00:10] Shot 3: Pull back to reveal the vehicle disappearing into the neon-lit depths of the city."
+      },
+      "videoUrl": "https://img.wjwj.top/2026/02/08/85820eabd0f51ef1d215e5012cb2c8ff.mov",
+      "author": "John @johnAGI168",
+      "selections": {
+        "sci_fi_movie_style": {
+          "cn": "赛博朋克美学（Cyberpunk Aesthetics）",
+          "en": "Cyberpunk Aesthetics"
+        },
+        "futuristic_vehicle": {
+          "cn": "流线型反重力飞行器（Anti-gravity Vehicle）",
+          "en": "Streamlined Anti-gravity Vehicle"
+        },
+        "cyberpunk_city_scene": {
+          "cn": "未来主义超级城市峡谷（Megacity Canyon）",
+          "en": "Futuristic Megacity Canyon"
+        },
+        "tracking_camera_shot": {
+          "cn": "极具纵深感的广角跟拍（Wide Angle Tracking Shot）",
+          "en": "Wide Angle Tracking Shot with Deep Depth"
+        },
+        "action_camera_shot": {
+          "cn": "紧张的驾驶舱视角（Cockpit View）",
+          "en": "Tense Cockpit View"
+        }
+      },
+      "tags": [
+        "科幻",
+        "动作",
+        "影视",
+        "游戏"
+      ],
+      "language": [
+        "cn",
+        "en"
+      ],
+      "bestModel": "Seedance 2.0",
+      "baseImage": "no_base_image"
+    },
+    {
+      "id": "tpl_rainforest_waterfall_jet",
+      "name": {
+        "cn": "雨林瀑布战机穿越",
+        "en": "Rainforest Waterfall Jet"
+      },
+      "type": "video",
+      "content": {
+        "cn": "### 雨林瀑布战机穿越视频\n\n一个电影感的视频序列，开场是 {{aerial_opening_shot}} 展示延伸至地平线的广阔 {{natural_environment}}，雾气在树冠中滚动，巨大的咆哮瀑布主导着中心景观，坠入阴影深处。\n\n镜头平滑过渡到 {{dynamic_tracking_shot}}，位置刚好在 {{military_aircraft}} 后方并略高于其上方，锁定其运动，因为它以极快的速度从高空向瀑布加速。\n\n速度感通过湍流空气扭曲、蒸汽轨迹、引擎热浪闪烁和微妙的相机震动来强调，飞机穿过云层。\n\n飞机快速下降，刚好掠过树梢上方，相机从后面紧密跟随，当飞机在参天大树和陡峭悬崖之间穿梭时，完美同步地倾斜和翻滚，动作精确而敏捷。\n\n阳光在飞机机身上闪过，叶子在下方模糊，雾气和喷雾向相机涌来，仿佛被飞机的尾流拉走。\n\n随着瀑布越来越近，咆哮声加剧，水向四面八方爆炸，水滴掠过跟踪相机。\n\n在最后时刻，飞机急剧向上拉起，完成完美的90度垂直爬升，相机直接留在后面，因为它穿过浓雾和辐射光。\n\n序列在飞机冲出瀑布上方时达到高潮，展现出另一侧宁静、发光的河流在原始、茂密的森林中蜿蜒的壮丽全景，平静而宏伟，与猛烈的爬升形成鲜明对比。",
+        "en": "A cinematic video sequence that opens with an {{aerial_opening_shot}} of a vast {{natural_environment}} stretching to the horizon, mist rolling through the canopy as a colossal roaring waterfall dominates the center of the landscape, plunging into shadowed depths.\n\nThe camera then transitions smoothly into a {{dynamic_tracking_shot}} positioned just behind and slightly above a {{military_aircraft}}, locked onto its movement as it accelerates at extreme speed from high altitude toward the waterfall.\n\nThe sense of velocity is emphasized by turbulent air distortion, vapor trails, engine heat shimmer, and subtle camera vibration as the jet cuts through clouds.\n\nThe jet descends rapidly, skimming just above the treetops while the camera follows tightly from behind, banking and rolling in perfect sync as the aircraft weaves between towering trees and steep cliffs with precise, agile movements.\n\nSunlight flashes across the jet's fuselage, leaves blur past beneath it, and mist and spray rush toward the camera as if being pulled along in the jet's wake.\n\nAs the waterfall looms closer, the roar intensifies, water exploding outward on all sides while droplets streak past the tracking camera.\n\nIn the final moment, the jet pulls sharply upward into a flawless 90 degree vertical climb, the camera staying directly behind as it rockets through dense mist and radiant light.\n\nThe sequence culminates as the jet bursts above the waterfall, revealing a breathtaking wide vista of a serene, glowing river winding through untouched, lush forest on the other side, calm and majestic in striking contrast to the violent ascent."
+      },
+      "videoUrl": "https://img.wjwj.top/2026/02/08/f60dcbb9a75748c8811de024ec2b5b12.mp4",
+      "author": "Umesh @umesh_ai",
+      "selections": {
+        "natural_environment": {
+          "cn": "古代雨林（Ancient Rainforest）",
+          "en": "Ancient Rainforest"
+        },
+        "military_aircraft": {
+          "cn": "战斗机（Fighter Jet）",
+          "en": "Fighter Jet"
+        },
+        "aerial_opening_shot": {
+          "cn": "史诗超广角航拍（Epic Ultra Wide Aerial Shot）",
+          "en": "Epic Ultra Wide Aerial Shot"
+        },
+        "dynamic_tracking_shot": {
+          "cn": "第三人称紧密跟拍（Third-Person Tight Tracking）",
+          "en": "Third-Person Tight Tracking"
+        }
+      },
+      "tags": [
+        "动作",
+        "影视",
+        "自然"
+      ],
+      "language": [
+        "cn",
+        "en"
+      ],
+      "bestModel": "Seedance 2.0",
+      "baseImage": "no_base_image"
     }
   ]
 }
