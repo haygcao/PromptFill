@@ -88,11 +88,13 @@ export const TemplateCarousel = ({ templates, language, isDarkMode, setZoomedIma
     setTimeout(() => setIsPaused(false), 2000);
   };
 
-  // 点击处理
+  // 点击处理：视频模板传 videoUrl 以便大图预览播视频，否则传 imageUrl
   const handleClick = () => {
-    // 如果没有明显移动，才认为是点击
-    if (!hasMoved) {
-      setZoomedImage && setZoomedImage(currentImage.imageUrl);
+    if (!hasMoved && setZoomedImage) {
+      const url = currentImage.type === 'video' && currentImage.videoUrl
+        ? currentImage.videoUrl
+        : currentImage.imageUrl;
+      setZoomedImage(url);
     }
   };
 

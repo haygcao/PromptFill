@@ -46,7 +46,7 @@ const App = () => {
   const isSettingPage = location.pathname === '/setting';
 
   // 当前应用代码版本 (必须与 package.json 和 version.json 一致)
-  const APP_VERSION = "0.8.2";
+  const APP_VERSION = "0.9.1";
 
   // 临时功能：瀑布流样式管理
   const [masonryStyleKey, setMasonryStyleKey] = useState('poster');

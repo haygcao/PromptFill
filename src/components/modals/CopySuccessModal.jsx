@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ExternalLink, CheckCircle2, Globe, LayoutGrid } from 'lucide-react';
+import { openExternalLink } from '../../utils/platform';
 
 /**
  * 复制成功弹窗组件
@@ -169,12 +170,10 @@ const SiteItem = ({ site, isDarkMode, language, bestModel }) => {
   const isBest = site.models.includes(bestModel);
   
   return (
-    <a
-      href={site.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      onClick={() => openExternalLink(site.url)}
       className={`
-        group flex items-center justify-between p-3.5 rounded-2xl border transition-all
+        w-full group flex items-center justify-between p-3.5 rounded-2xl border transition-all cursor-pointer
         ${isDarkMode 
           ? 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-orange-500/30' 
           : 'bg-gray-50 border-gray-100 hover:bg-white hover:border-orange-200 hover:shadow-lg hover:shadow-orange-500/5'}
@@ -197,7 +196,7 @@ const SiteItem = ({ site, isDarkMode, language, bestModel }) => {
         </span>
       </div>
       <ExternalLink size={14} className={`${isDarkMode ? 'text-gray-600 group-hover:text-orange-400' : 'text-gray-300 group-hover:text-orange-500'} transition-colors ${isBest ? 'text-orange-500' : ''}`} />
-    </a>
+    </button>
   );
 };
 

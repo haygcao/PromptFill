@@ -5,6 +5,7 @@ import {
   ChevronRight, RefreshCw, FolderOpen, X, Heart,
   Cloud
 } from 'lucide-react';
+import { openExternalLink } from '../utils/platform';
 
 export const SettingsView = ({ 
   language, setLanguage, 
@@ -52,6 +53,17 @@ export const SettingsView = ({
   }, [storageMode]);
   
   const updateLogs = language === 'cn' ? [
+    { 
+      version: 'V0.9.1', 
+      date: '2026年2月8日', 
+      time: '08:30 PM',
+      title: '手机端体验深度优化',
+      type: 'UPDATE',
+      content: [
+        '优化手机端交互体验：提升了小屏幕下的操作便捷性。',
+        '优化模版编辑布局：重新调整了编辑面板的宽度分配与对齐方式。'
+      ]
+    },
     { 
       version: 'V0.9.0', 
       date: '2026年2月8日', 
@@ -275,6 +287,17 @@ export const SettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V0.9.1', 
+      date: 'Feb 8, 2026', 
+      time: '08:30 PM',
+      title: 'Mobile UX Deep Optimization',
+      type: 'UPDATE',
+      content: [
+        'Enhanced Mobile Interaction: Improved usability on small screens.',
+        'Optimized Editor Layout: Refined width distribution and alignment in the editing panel.'
+      ]
+    },
     { 
       version: 'V0.9.0', 
       date: 'Feb 8, 2026', 
@@ -548,7 +571,7 @@ export const SettingsView = ({
           </h1>
           <div className="flex items-center gap-3 mt-1">
             <span className={`text-[9px] font-black tracking-[0.1em] uppercase ${isDarkMode ? 'text-gray-600' : 'text-gray-500'}`}>
-              System V0.9.0
+              System V0.9.1
             </span>
             <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`} />
             <span className="text-[9px] font-black text-orange-500/80 tracking-[0.1em] uppercase">
@@ -697,7 +720,7 @@ export const SettingsView = ({
               <SettingItem 
                 icon={Github} 
                 label="GitHub Open Source" 
-                onClick={() => window.open('https://github.com/TanShilongMario/PromptFill', '_blank')}
+                onClick={() => openExternalLink('https://github.com/TanShilongMario/PromptFill')}
               />
             </SettingSection>
           </div>

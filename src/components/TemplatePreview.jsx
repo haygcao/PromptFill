@@ -357,22 +357,14 @@ export const TemplatePreview = React.memo(({
                 id="preview-card"
                 className={`${isVideo && !isEditing ? 'max-w-none w-full' : 'max-w-4xl'} mx-auto p-4 sm:p-6 md:p-8 lg:p-12 min-h-[500px] md:min-h-[600px] transition-all duration-500 relative ${isMobile ? (isDarkMode ? 'bg-[#242120]/90 border border-white/5 rounded-2xl shadow-2xl overflow-visible' : 'bg-white/90 border border-white/60 rounded-2xl shadow-xl overflow-visible') : (isDarkMode ? 'bg-black/20 backdrop-blur-md rounded-2xl border border-white/5 shadow-2xl' : 'bg-white/40 backdrop-blur-sm rounded-2xl border border-white/40 shadow-sm')}`}
             >
-                {/* 移动端模版内语言切换 */}
+                {/* 移动端模版内语言切换 - 单独一行 */}
                 {isMobile && showLanguageToggle && (
-                  <div className="absolute top-4 right-4 z-30">
-                    <div className={`premium-toggle-container ${isDarkMode ? 'dark' : 'light'} scale-75 origin-right shrink-0`}>
-                      <button
-                        onClick={() => supportsChinese && setLanguage('cn')}
-                        className={`premium-toggle-item ${isDarkMode ? 'dark' : 'light'} ${language === 'cn' ? 'is-active' : ''} !px-2`}
-                      >
-                        CN
-                      </button>
-                      <button
-                        onClick={() => supportsEnglish && setLanguage('en')}
-                        className={`premium-toggle-item ${isDarkMode ? 'dark' : 'light'} ${language === 'en' ? 'is-active' : ''} !px-2`}
-                      >
-                        EN
-                      </button>
+                  <div className={`flex items-center justify-center py-1 mb-3 border-b ${isDarkMode ? 'border-white/5' : 'border-gray-200/60'}`}>
+                    <div className={`premium-toggle-container ${isDarkMode ? 'dark' : 'light'} shrink-0 scale-75`}>
+                      <button onClick={() => supportsChinese && setLanguage('cn')}
+                        className={`premium-toggle-item ${isDarkMode ? 'dark' : 'light'} ${language === 'cn' ? 'is-active' : ''} !px-2`}>CN</button>
+                      <button onClick={() => supportsEnglish && setLanguage('en')}
+                        className={`premium-toggle-item ${isDarkMode ? 'dark' : 'light'} ${language === 'en' ? 'is-active' : ''} !px-2`}>EN</button>
                     </div>
                   </div>
                 )}

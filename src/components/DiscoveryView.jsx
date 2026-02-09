@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
-  ImageIcon, ArrowUpRight, Search, Plus, Play
+  ImageIcon, ArrowUpRight, Search, Plus, Play, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { getLocalized } from '../utils/helpers';
 import { Sidebar } from './Sidebar';
 import { TagSidebar } from './TagSidebar';
 import { TemplateCarousel } from './TemplateCarousel';
+import { MobileVideoFirstFrame } from './mobile';
 import { TAG_LABELS } from '../constants/styles';
+import { openExternalLink } from '../utils/platform';
 
 /**
  * FuCharacter 组件 - 可交互的福字
@@ -213,6 +215,7 @@ export const DiscoveryView = React.memo(({
   }) => {
     const [columnCount, setColumnCount] = useState(1);
     const [columnGap, setColumnGap] = useState(20); // Default to gap-5 (20px)
+    const [isMobileTagsExpanded, setIsMobileTagsExpanded] = useState(false); // 手机端顶栏标签行默认折叠
   
     useEffect(() => {
       const getColumnInfo = () => {
@@ -251,7 +254,7 @@ export const DiscoveryView = React.memo(({
         className={`fixed inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden pb-32 md:pb-20 ${isDarkMode ? 'dark-gradient-bg' : 'mesh-gradient-bg'}`}
       >
         {/* 顶部固定毛玻璃导航栏 - 全局最上层 */}
-        <div className="fixed top-0 left-0 right-0 h-40 z-[100] pointer-events-none">
+        <div className={`fixed top-0 left-0 right-0 z-[100] pointer-events-none transition-[height] duration-200 ${isMobileTagsExpanded ? 'h-40' : 'h-24'}`}>
           {/* 渐进式背景模糊层 */}
           <div 
             className="absolute inset-0"
@@ -265,67 +268,82 @@ export const DiscoveryView = React.memo(({
               WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)'
             }}
           />
-          {/* 内容区域 - 类型 + 标签选项 */}
+          {/* 内容区域 - 类型行 + 可折叠标签行 */}
           <div className="relative pt-safe pointer-events-auto overflow-hidden">
-            {/* 类型切换行 */}
-            <div className="flex px-6 gap-4 h-10 items-center">
-              {[
-                { id: 'all', cn: '全部', en: 'All' },
-                { id: 'image', cn: '图片', en: 'Image' },
-                { id: 'video', cn: '视频', en: 'Video' }
-              ].map(type => (
-                <button
-                  key={type.id}
-                  onClick={() => setSelectedType(type.id)}
-                  className={`flex-shrink-0 text-[13px] font-bold px-3 py-1 rounded-full transition-all duration-300 ${
-                    selectedType === type.id
-                      ? (isDarkMode ? 'bg-orange-500/20 text-orange-400' : 'bg-orange-500/10 text-orange-600')
-                      : (isDarkMode ? 'text-white/50 hover:text-white/70 bg-white/5' : 'text-black/40 hover:text-black/60 bg-black/5')
-                  }`}
-                >
-                  {language === 'cn' ? type.cn : type.en}
-                </button>
-              ))}
-            </div>
-            {/* 标签选项行 */}
-            <div className="flex overflow-x-auto no-scrollbar px-6 gap-6 scroll-smooth h-12 items-center">
+            {/* 最上层级：全部/图片/视频（无底色，选中底部小圆点）+ 右侧折叠按钮 */}
+            <div className="flex px-4 sm:px-6 gap-4 h-12 items-center justify-between">
+              <div className="flex gap-6 items-center">
+                {[
+                  { id: 'all', cn: '全部', en: 'All' },
+                  { id: 'image', cn: '图片', en: 'Image' },
+                  { id: 'video', cn: '视频', en: 'Video' }
+                ].map(type => (
+                  <button
+                    key={type.id}
+                    onClick={() => setSelectedType(type.id)}
+                    className={`flex-shrink-0 text-[15px] font-bold transition-all duration-300 relative ${
+                      selectedType === type.id
+                        ? 'text-orange-500 scale-105'
+                        : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-black/70 hover:text-black')
+                    }`}
+                  >
+                    {language === 'cn' ? type.cn : type.en}
+                    {selectedType === type.id && (
+                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full" />
+                    )}
+                  </button>
+                ))}
+              </div>
               <button
-                onClick={() => setSelectedTags("")}
-                className={`flex-shrink-0 text-[15px] font-bold transition-all duration-300 relative ${
-                  selectedTags === ""
-                    ? 'text-orange-500 scale-105'
-                    : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-black/70 hover:text-black')
-                }`}
+                type="button"
+                onClick={() => setIsMobileTagsExpanded(prev => !prev)}
+                className={`flex-shrink-0 p-2 -mr-2 rounded-full transition-colors ${isDarkMode ? 'text-white/60 hover:text-white/90' : 'text-black/50 hover:text-black/80'}`}
+                aria-label={isMobileTagsExpanded ? (language === 'cn' ? '收起标签' : 'Collapse tags') : (language === 'cn' ? '展开标签' : 'Expand tags')}
               >
-                {language === 'cn' ? '全部' : 'All'}
-                {selectedTags === "" && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
-                )}
+                {isMobileTagsExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </button>
-              {(availableTags || TEMPLATE_TAGS).map(tag => (
+            </div>
+            {/* 标签选项行 - 可折叠 */}
+            {isMobileTagsExpanded && (
+              <div className="flex overflow-x-auto no-scrollbar px-4 sm:px-6 gap-6 scroll-smooth h-12 items-center">
                 <button
-                  key={tag}
-                  onClick={() => setSelectedTags(tag)}
+                  onClick={() => setSelectedTags("")}
                   className={`flex-shrink-0 text-[15px] font-bold transition-all duration-300 relative ${
-                    selectedTags === tag
+                    selectedTags === ""
                       ? 'text-orange-500 scale-105'
                       : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-black/70 hover:text-black')
                   }`}
                 >
-                  {TAG_LABELS[language]?.[tag] || tag}
-                  {selectedTags === tag && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                  {language === 'cn' ? '全部' : 'All'}
+                  {selectedTags === "" && (
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full" />
                   )}
                 </button>
-              ))}
-            </div>
+                {(availableTags || TEMPLATE_TAGS).map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => setSelectedTags(tag)}
+                    className={`flex-shrink-0 text-[15px] font-bold transition-all duration-300 relative ${
+                      selectedTags === tag
+                        ? 'text-orange-500 scale-105'
+                        : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-black/70 hover:text-black')
+                    }`}
+                  >
+                    {TAG_LABELS[language]?.[tag] || tag}
+                    {selectedTags === tag && (
+                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* 轮播图区域 - 从顶部开始显示 */}
+        {/* 轮播图区域 - 只从下方有效结果中取（与瀑布流一致：全部/图片/视频+标签） */}
         <div className="w-full">
           <TemplateCarousel
-            templates={templates}
+            templates={filteredTemplates}
             language={language}
             isDarkMode={isDarkMode}
             setZoomedImage={setZoomedImage}
@@ -360,19 +378,17 @@ export const DiscoveryView = React.memo(({
                       loading="lazy"
                     />
                   ) : t_item.type === 'video' && t_item.videoUrl ? (
-                    <video
-                      src={t_item.videoUrl}
+                    <MobileVideoFirstFrame
+                      videoUrl={t_item.videoUrl}
+                      alt={getLocalized(t_item.name, language)}
                       className="w-full h-auto block"
-                      muted
-                      playsInline
-                      preload="metadata"
                     />
                   ) : (
                     <div className="w-full aspect-[4/3] flex items-center justify-center text-gray-300">
                       <ImageIcon size={48} strokeWidth={1} />
                     </div>
                   )}
-                  
+
                   {/* Video Indicator */}
                   {t_item.type === 'video' && (
                     <div className="absolute top-2 right-2 z-10 bg-black/50 backdrop-blur-md rounded-full p-1.5 text-white shadow-lg border border-white/10">
@@ -524,16 +540,14 @@ export const DiscoveryView = React.memo(({
                       <p>公众号：角落工作室</p>
                       <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-gray-600' : 'bg-gray-400'}`} />
                       <p>Wechat: tanshilongmario</p>
-                      <a 
-                          href="https://github.com/TanShilongMario/PromptFill/" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
+                      <button 
+                          onClick={() => openExternalLink('https://github.com/TanShilongMario/PromptFill/')}
                           className={`ml-2 inline-flex items-center justify-center w-6 h-6 rounded-full text-white transition-all duration-300 hover:scale-110 shadow-lg ${isDarkMode ? 'bg-gray-700 hover:bg-orange-500' : 'bg-gray-800 hover:bg-orange-500'}`}
                       >
                           <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                               <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
                           </svg>
-                      </a>
+                      </button>
                   </div>
               </div>
           </footer>

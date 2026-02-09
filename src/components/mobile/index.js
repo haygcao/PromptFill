@@ -3,3 +3,4 @@
  */
 
 export { default as MobileBottomNav } from './MobileBottomNav';
+export { MobileVideoFirstFrame } from './MobileVideoFirstFrame';

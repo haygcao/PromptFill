@@ -5,6 +5,7 @@ import {
   ChevronRight, RefreshCw, FileText, Info, X,
   Moon, Sun, Heart, Cloud
 } from 'lucide-react';
+import { openExternalLink, isTauri } from '../utils/platform';
 
 export const MobileSettingsView = ({ 
   language, setLanguage, 
@@ -52,6 +53,15 @@ export const MobileSettingsView = ({
   
   // 完善后的更新日志 (同步桌面端内容)
   const updateLogs = language === 'cn' ? [
+    { 
+      version: 'V0.9.1', 
+      date: '2026-02-08', 
+      title: '手机端体验与布局优化',
+      content: [
+        '优化手机端交互体验与小屏适配',
+        '优化模版编辑面板布局与对齐方式'
+      ]
+    },
     { 
       version: 'V0.9.0', 
       date: '2026-02-08', 
@@ -182,6 +192,15 @@ export const MobileSettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V0.9.1', 
+      date: '2026-02-08', 
+      title: 'Mobile UX & Layout Optimization',
+      content: [
+        'Optimized mobile interactions and small screen adaptation',
+        'Refined template editor layout and alignment'
+      ]
+    },
     { 
       version: 'V0.9.0', 
       date: '2026-02-08', 
@@ -413,6 +432,19 @@ export const MobileSettingsView = ({
           />
         )}
 
+        {!isTauri() && (
+          <SettingItem 
+            icon={({ size = 18, ...props }) => (
+              <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}>
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+              </svg>
+            )}
+            label={language === 'cn' ? '下载 iOS App' : 'Download iOS App'}
+            description={language === 'cn' ? '获得更好的原生体验' : 'Better native experience'}
+            onClick={() => openExternalLink('https://apps.apple.com/cn/app/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%A1%AB%E7%A9%BA%E5%99%A8/id6758574801')}
+          />
+        )}
+
         {storageMode === 'browser' && storageStats && (
           <div className="px-5 mb-4 mt-2">
             <div className="flex justify-between items-center mb-1.5">
@@ -508,7 +540,7 @@ export const MobileSettingsView = ({
         <SettingItem 
           icon={Github} 
           label={t('github_link')} 
-          onClick={() => window.open('https://github.com/TanShilongMario/PromptFill', '_blank')}
+          onClick={() => openExternalLink('https://github.com/TanShilongMario/PromptFill')}
         />
       </SettingSection>
 
@@ -606,7 +638,7 @@ export const MobileSettingsView = ({
       )}
 
       <div className={`text-center pb-8 ${isDarkMode ? 'opacity-10' : 'opacity-20'}`}>
-        <p className={`text-[10px] font-black tracking-[0.3em] uppercase ${isDarkMode ? 'text-white' : 'text-black'}`}>Prompt Fill V0.9.0</p>
+        <p className={`text-[10px] font-black tracking-[0.3em] uppercase ${isDarkMode ? 'text-white' : 'text-black'}`}>Prompt Fill V0.9.1</p>
         <p className={`text-[9px] font-bold mt-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Made by CornerStudio</p>
       </div>
     </div>

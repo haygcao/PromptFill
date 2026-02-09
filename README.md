@@ -11,8 +11,8 @@
 A **structured prompt generation tool** designed specifically for AI painting (GPT, Midjourney, Nano Banana, etc.). Help users quickly build, manage, and iterate complex prompts through a visual "fill-in-the-blank" interaction.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/Version-0.9.0-orange.svg)
-![Data](https://img.shields.io/badge/Data-0.9.0-green.svg)
+![Version](https://img.shields.io/badge/Version-0.9.1-orange.svg)
+![Data](https://img.shields.io/badge/Data-0.9.1-green.svg)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB.svg)
 ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)
@@ -177,6 +177,16 @@ Copy the final prompt or save as a long image. JSON Import/Export is available f
 
 ## 📝 Change Log
 
+### Version 0.9.1 (2026-02-08)
+- Mobile UX: Optimized mobile interaction and small screen adaptation.
+- Editor Layout: Refined template editor layout and alignment for better usability.
+
+### Version 0.9.0 (2026-02-08)
+- Video Support: Full support for video previews and cover management.
+- Mobile Refactor: New mobile editor layout with 60% text width and horizontal scrolling previews.
+- Smart Interaction: Auto-collapsing info section when editing on mobile.
+- UI Refinement: Optimized upload control sizes and label visibility.
+
 ### Version 0.8.2 (2026-01-31)
 - Header Refactor: Progressive blur top bar with horizontal tag navigation for mobile.
 - Layout Redesign: Integrated drawer toggles in editor header for better spacing on mobile.
@@ -258,8 +268,8 @@ MIT License / [MIT 许可证](LICENSE).
 一个专为 AI 绘画（GPT、Nano Banana 等）设计的**结构化提示词生成工具**。通过可视化的"填空"交互方式，帮助用户快速构建、管理和迭代复杂的 Prompt。
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/Version-0.9.0-orange.svg)
-![Data](https://img.shields.io/badge/Data-0.9.0-green.svg)
+![Version](https://img.shields.io/badge/Version-0.9.1-orange.svg)
+![Data](https://img.shields.io/badge/Data-0.9.1-green.svg)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB.svg)
 ![Vite](https://img.shields.io/badge/Vite-5.x-646CFF.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)
@@ -423,6 +433,16 @@ Prompt Fill 现已迭代至 **v0.9.0** 版本。本项目初衷是解决 AI 绘�
 ---
 
 ## 📝 更新日志
+
+### Version 0.9.1 (2026-02-08)
+- 手机端优化：优化了手机端的交互体验与小屏适配。
+- 布局优化：微调了模版编辑面板的布局与对齐方式，提升操作便捷性。
+
+### Version 0.9.0 (2026-02-08)
+- 视频模版深度支持：支持视频预览、封面管理及参考素材多源上传。
+- 移动端编辑重构：采用“上二下一”新布局，文字区域宽度提升至 60%，预览支持横向滑动。
+- 交互优化：手机端编辑或滑动正文时，信息区域支持自动折叠。
+- 视觉微调：优化了上传控件尺寸与标签显示逻辑。
 
 ### Version 0.8.2 (2026-01-31)
 - 首页重构：引入渐进式毛玻璃顶部栏与无滚动条横向标签导航。
