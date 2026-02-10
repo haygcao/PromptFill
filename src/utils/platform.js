@@ -25,6 +25,30 @@ export const isTauriAndroid = () => isTauri() && isAndroid();
 export const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
 
 
+// ========== 跨平台网络请求 ==========
+
+/**
+ * 跨平台 fetch 封装
+ * - Tauri 环境：使用 @tauri-apps/plugin-http（绕过 WKWebView 的 CORS / ATS 限制）
+ * - 普通浏览器：使用原生 fetch
+ *
+ * @param {string} url - 请求地址
+ * @param {RequestInit} [options] - fetch 选项
+ * @returns {Promise<Response>}
+ */
+export const smartFetch = async (url, options = {}) => {
+  if (isTauri()) {
+    try {
+      const { fetch: tauriFetch } = await import('@tauri-apps/plugin-http');
+      return await tauriFetch(url, { ...options, method: options.method || 'GET' });
+    } catch (e) {
+      console.warn('[platform] Tauri fetch 失败，回退到原生 fetch:', e.message);
+    }
+  }
+  return await fetch(url, options);
+};
+
+
 // ========== 外部链接 ==========
 
 /**

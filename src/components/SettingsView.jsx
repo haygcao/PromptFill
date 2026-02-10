@@ -54,6 +54,16 @@ export const SettingsView = ({
   
   const updateLogs = language === 'cn' ? [
     { 
+      version: 'V0.9.2', 
+      date: '2026年2月10日', 
+      time: '10:00 AM',
+      title: '素材系统功能升级',
+      type: 'UPDATE',
+      content: [
+        '支持素材使用模版素材：提升了素材引用的灵活性。'
+      ]
+    },
+    { 
       version: 'V0.9.1', 
       date: '2026年2月8日', 
       time: '08:30 PM',
@@ -287,6 +297,16 @@ export const SettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V0.9.2', 
+      date: 'Feb 10, 2026', 
+      time: '10:00 AM',
+      title: 'Material System Upgrade',
+      type: 'UPDATE',
+      content: [
+        'Supported using template materials in assets: improved flexibility of material referencing.'
+      ]
+    },
     { 
       version: 'V0.9.1', 
       date: 'Feb 8, 2026', 
@@ -571,7 +591,7 @@ export const SettingsView = ({
           </h1>
           <div className="flex items-center gap-3 mt-1">
             <span className={`text-[9px] font-black tracking-[0.1em] uppercase ${isDarkMode ? 'text-gray-600' : 'text-gray-500'}`}>
-              System V0.9.1
+              System V0.9.2
             </span>
             <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`} />
             <span className="text-[9px] font-black text-orange-500/80 tracking-[0.1em] uppercase">

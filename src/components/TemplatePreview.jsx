@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import { Variable } from './Variable';
 import { VisualEditor } from './VisualEditor';
 import { EditorToolbar } from './EditorToolbar';
-import { ImageIcon, ArrowUpRight, Upload, Globe, RotateCcw, Pencil, Check, X, ChevronLeft, ChevronRight, Plus, Trash2, Play } from 'lucide-react';
+import { ImageIcon, ArrowUpRight, Upload, Globe, RotateCcw, Pencil, Check, X, ChevronLeft, ChevronRight, Plus, Trash2, Play, Link } from 'lucide-react';
 import { WaypointsIcon } from './icons/WaypointsIcon';
 import { getLocalized, getVideoEmbedInfo } from '../utils/helpers';
 
@@ -11,6 +11,8 @@ import { getLocalized, getVideoEmbedInfo } from '../utils/helpers';
  */
 export const TemplatePreview = React.memo(({
   activeTemplate,
+  templates,
+  setActiveTemplateId,
   setSourceZoomedItem,
   banks,
   defaults,
@@ -447,7 +449,17 @@ export const TemplatePreview = React.memo(({
                                   <div 
                                     key={sIdx}
                                     className={`relative group/source rounded-lg overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-lg flex-shrink-0 ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-white bg-gray-50'}`}
-                                    onClick={() => src.url && setSourceZoomedItem(src)}
+                                    onClick={() => {
+                                      if (src.templateId) {
+                                        if (templates && templates.some(t => t.id === src.templateId)) {
+                                          setActiveTemplateId(src.templateId);
+                                        } else {
+                                          alert(language === 'cn' ? `关联的模版「${src.templateName || '未知'}」已不存在` : `Linked template "${src.templateName || 'Unknown'}" no longer exists`);
+                                        }
+                                      } else if (src.url) {
+                                        setSourceZoomedItem(src);
+                                      }
+                                    }}
                                   >
                                     <div className="w-24 h-24 md:w-32 md:h-32 overflow-hidden flex items-center justify-center cursor-zoom-in">
                                       {src.type === 'video' ? (
@@ -462,6 +474,13 @@ export const TemplatePreview = React.memo(({
                                         />
                                       )}
                                     </div>
+                                    {/* 关联角标 */}
+                                    {src.templateId && (
+                                      <div className="absolute top-1.5 left-1.5 z-10 bg-orange-500 text-white rounded-md px-1 py-0.5 flex items-center gap-1 shadow-lg">
+                                        <Link size={10} />
+                                        <span className="text-[9px] font-black">{language === 'cn' ? '关联' : 'LINK'}</span>
+                                      </div>
+                                    )}
                                     {src.label && (
                                       <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm py-1.5 px-2 opacity-0 group-hover/source:opacity-100 transition-opacity">
                                         <p className="text-[10px] text-white font-bold truncate text-center">
@@ -751,7 +770,17 @@ export const TemplatePreview = React.memo(({
                                         <div 
                                             key={sIdx}
                                             className={`relative group/source rounded-xl overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-lg ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-white bg-gray-50'}`}
-                                            onClick={() => src.url && setSourceZoomedItem(src)}
+                                            onClick={() => {
+                                              if (src.templateId) {
+                                                if (templates && templates.some(t => t.id === src.templateId)) {
+                                                  setActiveTemplateId(src.templateId);
+                                                } else {
+                                                  alert(language === 'cn' ? `关联的模版「${src.templateName || '未知'}」已不存在` : `Linked template "${src.templateName || 'Unknown'}" no longer exists`);
+                                                }
+                                              } else if (src.url) {
+                                                setSourceZoomedItem(src);
+                                              }
+                                            }}
                                         >
                                             <div className="w-28 h-28 md:w-36 md:h-36 overflow-hidden flex items-center justify-center cursor-zoom-in">
                                                 {src.type === 'video' ? (
@@ -780,6 +809,13 @@ export const TemplatePreview = React.memo(({
                                                     />
                                                 )}
                                             </div>
+                                            {/* 关联角标 */}
+                                            {src.templateId && (
+                                              <div className="absolute top-2 left-2 z-10 bg-orange-500 text-white rounded-md px-1.5 py-0.5 flex items-center gap-1 shadow-lg">
+                                                <Link size={12} />
+                                                <span className="text-[10px] font-black">{language === 'cn' ? '关联' : 'LINK'}</span>
+                                              </div>
+                                            )}
                                             {src.label && (
                                                 <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm py-1.5 px-2 opacity-0 group-hover/source:opacity-100 transition-opacity">
                                                     <p className="text-[10px] text-white font-bold truncate text-center">
@@ -1056,7 +1092,17 @@ export const TemplatePreview = React.memo(({
                                                 <div 
                                                     key={sIdx}
                                                     className={`relative group/source rounded-lg overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-lg flex-shrink-0 ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-white bg-gray-50'}`}
-                                                    onClick={() => src.url && setSourceZoomedItem(src)}
+                                                    onClick={() => {
+                                                      if (src.templateId) {
+                                                        if (templates && templates.some(t => t.id === src.templateId)) {
+                                                          setActiveTemplateId(src.templateId);
+                                                        } else {
+                                                          alert(language === 'cn' ? `关联的模版「${src.templateName || '未知'}」已不存在` : `Linked template "${src.templateName || 'Unknown'}" no longer exists`);
+                                                        }
+                                                      } else if (src.url) {
+                                                        setSourceZoomedItem(src);
+                                                      }
+                                                    }}
                                                 >
                                                     <div className="w-24 h-24 md:w-28 md:h-28 overflow-hidden flex items-center justify-center cursor-zoom-in">
                                                         {src.type === 'video' ? (
@@ -1085,6 +1131,13 @@ export const TemplatePreview = React.memo(({
                                                             />
                                                         )}
                                                     </div>
+                                                    {/* 关联角标 */}
+                                                    {src.templateId && (
+                                                      <div className="absolute top-1.5 left-1.5 z-10 bg-orange-500 text-white rounded-md px-1 py-0.5 flex items-center gap-1 shadow-lg">
+                                                        <Link size={10} />
+                                                        <span className="text-[9px] font-black">{language === 'cn' ? '关联' : 'LINK'}</span>
+                                                      </div>
+                                                    )}
                                                     {src.label && (
                                                         <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm py-1 px-1.5 opacity-0 group-hover/source:opacity-100 transition-opacity">
                                                             <p className="text-[9px] text-white font-bold truncate text-center">

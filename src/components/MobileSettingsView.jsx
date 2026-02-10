@@ -54,6 +54,14 @@ export const MobileSettingsView = ({
   // 完善后的更新日志 (同步桌面端内容)
   const updateLogs = language === 'cn' ? [
     { 
+      version: 'V0.9.2', 
+      date: '2026-02-10', 
+      title: '支持素材使用模版素材',
+      content: [
+        '支持素材使用模版素材',
+      ]
+    },
+    { 
       version: 'V0.9.1', 
       date: '2026-02-08', 
       title: '手机端体验与布局优化',
@@ -192,6 +200,14 @@ export const MobileSettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V0.9.2', 
+      date: '2026-02-10', 
+      title: 'Material & Asset Support',
+      content: [
+        'Supported using template materials in assets',
+      ]
+    },
     { 
       version: 'V0.9.1', 
       date: '2026-02-08', 
@@ -638,7 +654,7 @@ export const MobileSettingsView = ({
       )}
 
       <div className={`text-center pb-8 ${isDarkMode ? 'opacity-10' : 'opacity-20'}`}>
-        <p className={`text-[10px] font-black tracking-[0.3em] uppercase ${isDarkMode ? 'text-white' : 'text-black'}`}>Prompt Fill V0.9.1</p>
+        <p className={`text-[10px] font-black tracking-[0.3em] uppercase ${isDarkMode ? 'text-white' : 'text-black'}`}>Prompt Fill V0.9.2</p>
         <p className={`text-[9px] font-bold mt-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Made by CornerStudio</p>
       </div>
     </div>

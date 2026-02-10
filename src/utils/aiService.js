@@ -5,6 +5,7 @@
  */
 
 import { AI_FEATURE_ENABLED } from '../constants/aiConfig';
+import { smartFetch } from './platform';
 
 /**
  * 智能生成词条（增强版：支持上下文感知）
@@ -39,7 +40,7 @@ export const generateAITerms = async (params) => {
     // 宝塔后端统一处理接口
     const CLOUD_API_URL = "https://data.tanshilong.com/api/ai/process";
 
-    const response = await fetch(CLOUD_API_URL, {
+    const response = await smartFetch(CLOUD_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -98,7 +99,7 @@ export const polishAndSplitPrompt = async (params) => {
   try {
     const CLOUD_API_URL = "https://data.tanshilong.com/api/ai/process";
 
-    const response = await fetch(CLOUD_API_URL, {
+    const response = await smartFetch(CLOUD_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -1,11 +1,12 @@
 import React, { useRef, useCallback } from 'react';
-import { Eye, Edit3, Copy, Check, X, ImageIcon, Pencil, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Plus, Trash2, LayoutGrid, Book, Play, Globe, Upload, Info, Film, FolderOpen, FileText } from 'lucide-react';
+import { Eye, Edit3, Copy, Check, X, ImageIcon, Pencil, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Plus, Trash2, LayoutGrid, Book, Play, Globe, Upload, Info, Film, FolderOpen, FileText, Link } from 'lucide-react';
 import { WaypointsIcon } from './icons/WaypointsIcon';
 import { getLocalized, getVideoEmbedInfo } from '../utils/helpers';
 import { TemplatePreview } from './TemplatePreview';
 import { VisualEditor } from './VisualEditor';
 import { EditorToolbar } from './EditorToolbar';
 import { PremiumButton } from './PremiumButton';
+import { LinkTemplateModal } from './modals/LinkTemplateModal';
 
 /**
  * HScrollArea — 支持鼠标滚轮横向滑动 + 左右翻页按钮
@@ -82,6 +83,8 @@ const HScrollArea = ({ children, className = '', isDarkMode }) => {
 export const TemplateEditor = React.memo(({
   // ===== 模板数据 =====
   activeTemplate,
+  templates,
+  setActiveTemplateId,
   setSourceZoomedItem,
   banks,
   defaults,
@@ -176,6 +179,7 @@ export const TemplateEditor = React.memo(({
   setIsBanksDrawerOpen,
 }) => {
   const [activeSelect, setActiveSelect] = React.useState(null); // 'bestModel' | 'baseImage' | null
+  const [isLinkModalOpen, setIsLinkModalOpen] = React.useState(false);
 
   // 手机端手风琴: 'info' | 'preview' | 'source' | 'content' | null
   const [mobileAccordion, setMobileAccordion] = React.useState('content');
@@ -245,7 +249,18 @@ export const TemplateEditor = React.memo(({
           {(activeTemplate.source || []).map((src, sIdx) => (
             <div key={sIdx}
               className={`flex-shrink-0 relative group/source rounded-lg border-2 transition-all cursor-zoom-in hover:scale-[1.03] ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-gray-100 bg-gray-50'}`}
-              onClick={() => setSourceZoomedItem(src)}>
+              onClick={() => {
+                if (src.templateId) {
+                  // 关联模式：跳转到模版
+                  if (templates && templates.some(t => t.id === src.templateId)) {
+                    setActiveTemplateId(src.templateId);
+                  } else {
+                    alert(language === 'cn' ? `关联的模版「${src.templateName || '未知'}」已不存在` : `Linked template "${src.templateName || 'Unknown'}" no longer exists`);
+                  }
+                } else {
+                  setSourceZoomedItem(src);
+                }
+              }}>
               <div className={`${isMobileDevice ? 'w-[140px] h-[140px]' : 'w-[210px] h-[210px]'} overflow-hidden rounded-lg flex items-center justify-center`}>
                 {src.type === 'video' ? (
                   getVideoEmbedInfo(src.url)?.platform === 'video' ? (
@@ -260,19 +275,33 @@ export const TemplateEditor = React.memo(({
                   <img src={src.url} alt={`Source ${src.id || sIdx + 1}`} className="w-full h-full object-cover" />
                 )}
               </div>
+
+              {/* 关联角标 */}
+              {src.templateId && (
+                <div className="absolute top-1.5 left-1.5 z-10 bg-orange-500 text-white rounded-md px-1 py-0.5 flex items-center gap-1 shadow-lg">
+                  <Link size={10} />
+                  <span className="text-[9px] font-black">{language === 'cn' ? '关联' : 'LINK'}</span>
+                </div>
+              )}
+
               <button onClick={(e) => { e.stopPropagation(); const s = [...(activeTemplate.source || [])]; s.splice(sIdx, 1); updateTemplateProperty('source', s); }}
                 className={`absolute top-1 right-1 bg-red-500 text-white rounded-full shadow-lg opacity-0 group-hover/source:opacity-100 transition-opacity z-[20] ${isMobileDevice ? 'p-0.5' : 'p-1.5'}`}><X size={isMobileDevice ? 10 : 14} /></button>
             </div>
           ))}
-          <div className={`flex-shrink-0 ${isMobileDevice ? 'w-[140px] h-[140px]' : 'w-[210px] h-[210px]'} rounded-lg border-2 border-dashed flex items-center justify-center gap-2 md:gap-4 ${isDarkMode ? 'border-white/10 text-gray-600' : 'border-gray-200 text-gray-400'}`}>
+          <div className={`flex-shrink-0 ${isMobileDevice ? 'w-[140px] h-[140px]' : 'w-[210px] h-[210px]'} rounded-lg border-2 border-dashed flex items-center justify-center gap-0.5 md:gap-1 ${isDarkMode ? 'border-white/10 text-gray-600' : 'border-gray-200 text-gray-400'}`}>
             <button onClick={() => { setImageUpdateMode('add_source'); fileInputRef.current?.click(); }}
-              className={`flex flex-col items-center gap-1.5 md:gap-2 p-2 md:p-3 rounded transition-all ${isDarkMode ? 'hover:bg-white/10 hover:text-orange-400' : 'hover:bg-orange-50 hover:text-orange-500'}`}>
+              className={`flex flex-col items-center gap-1.5 p-1 md:p-2 rounded transition-all ${isDarkMode ? 'hover:bg-white/10 hover:text-orange-400' : 'hover:bg-orange-50 hover:text-orange-500'}`}>
               <Upload size={isMobileDevice ? 18 : 24} /><span className={`${isMobileDevice ? 'text-[8px]' : 'text-[10px]'} font-bold`}>{language === 'cn' ? '本地' : 'Local'}</span>
             </button>
-            <div className={`w-px ${isMobileDevice ? 'h-6' : 'h-8'} ${isDarkMode ? 'bg-white/10' : 'bg-gray-200'}`} />
+            <div className={`w-px ${isMobileDevice ? 'h-6' : 'h-8'} ${isDarkMode ? 'bg-white/10' : 'bg-gray-200'} opacity-50`} />
             <button onClick={() => { setImageUpdateMode('add_source'); setShowImageUrlInput(true); }}
-              className={`flex flex-col items-center gap-1.5 md:gap-2 p-2 md:p-3 rounded transition-all ${isDarkMode ? 'hover:bg-white/10 hover:text-orange-400' : 'hover:bg-orange-50 hover:text-orange-500'}`}>
+              className={`flex flex-col items-center gap-1.5 p-1 md:p-2 rounded transition-all ${isDarkMode ? 'hover:bg-white/10 hover:text-orange-400' : 'hover:bg-orange-50 hover:text-orange-500'}`}>
               <Globe size={isMobileDevice ? 18 : 24} /><span className={`${isMobileDevice ? 'text-[8px]' : 'text-[10px]'} font-bold`}>{language === 'cn' ? '链接' : 'URL'}</span>
+            </button>
+            <div className={`w-px ${isMobileDevice ? 'h-6' : 'h-8'} ${isDarkMode ? 'bg-white/10' : 'bg-gray-200'} opacity-50`} />
+            <button onClick={() => setIsLinkModalOpen(true)}
+              className={`flex flex-col items-center gap-1.5 p-1 md:p-2 rounded transition-all ${isDarkMode ? 'hover:bg-white/10 hover:text-orange-400' : 'hover:bg-orange-50 hover:text-orange-500'}`}>
+              <Link size={isMobileDevice ? 18 : 24} /><span className={`${isMobileDevice ? 'text-[8px]' : 'text-[10px]'} font-bold`}>{language === 'cn' ? '关联' : 'Link'}</span>
             </button>
           </div>
         </HScrollArea>
@@ -452,7 +481,7 @@ export const TemplateEditor = React.memo(({
                     onClick={() => toggleAccordion('info')}
                     className={`w-full flex items-center gap-2.5 px-4 h-11 select-none active:opacity-70 transition-opacity ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
                   >
-                    <div className="flex items-center gap-2.5 flex-shrink-0 w-28">
+                    <div className="flex items-center gap-2.5 flex-shrink-0 w-32">
                       <Info size={14} className={`flex-shrink-0 ${mobileAccordion === 'info' ? 'text-orange-500' : 'opacity-40'}`} />
                       <span className="text-[13px] font-bold">{language === 'cn' ? '基础信息' : 'Basic Info'}</span>
                     </div>
@@ -531,7 +560,7 @@ export const TemplateEditor = React.memo(({
                     onClick={() => toggleAccordion('preview')}
                     className={`w-full flex items-center gap-2.5 px-4 h-11 select-none active:opacity-70 transition-opacity ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
                   >
-                    <div className="flex items-center gap-2.5 flex-shrink-0 w-28">
+                    <div className="flex items-center gap-2.5 flex-shrink-0 w-32">
                       <Film size={14} className={`flex-shrink-0 ${mobileAccordion === 'preview' ? 'text-orange-500' : 'opacity-40'}`} />
                       <span className="text-[13px] font-bold">{language === 'cn' ? '成果预览' : 'Results'}</span>
                     </div>
@@ -650,9 +679,9 @@ export const TemplateEditor = React.memo(({
                     onClick={() => toggleAccordion('source')}
                     className={`w-full flex items-center gap-2.5 px-4 h-11 select-none active:opacity-70 transition-opacity ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
                   >
-                    <div className="flex items-center gap-2.5 flex-shrink-0 w-28">
+                    <div className="flex items-center gap-2.5 flex-shrink-0 w-32">
                       <FolderOpen size={14} className={`flex-shrink-0 ${mobileAccordion === 'source' ? 'text-orange-500' : 'opacity-40'}`} />
-                      <span className="text-[13px] font-bold">{language === 'cn' ? '素材准备' : 'Source Assets'}</span>
+                      <span className="text-[13px] font-bold">{language === 'cn' ? '素材' : 'Source'}</span>
                     </div>
                     {mobileAccordion !== 'source' && (
                       <span className={`text-[10px] truncate opacity-50 flex-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -676,7 +705,7 @@ export const TemplateEditor = React.memo(({
                     onClick={() => toggleAccordion('content')}
                     className={`w-full flex items-center gap-2.5 px-4 h-11 select-none active:opacity-70 transition-opacity ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
                   >
-                    <div className="flex items-center gap-2.5 flex-shrink-0 w-28">
+                    <div className="flex items-center gap-2.5 flex-shrink-0 w-32">
                       <FileText size={14} className={`flex-shrink-0 ${mobileAccordion === 'content' ? 'text-orange-500' : 'opacity-40'}`} />
                       <span className="text-[13px] font-bold">{language === 'cn' ? '内容呈现' : 'Content'}</span>
                     </div>
@@ -774,6 +803,9 @@ export const TemplateEditor = React.memo(({
                             disabled={INITIAL_TEMPLATES_CONFIG.some(cfg => cfg.id === activeTemplate.id)}
                             className={`text-sm font-bold bg-transparent border-b border-dashed focus:border-solid border-orange-500/30 focus:border-orange-500 focus:outline-none w-full pb-0.5 transition-all ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}
                             placeholder={language === 'cn' ? '作者...' : 'Author...'} />
+                          {INITIAL_TEMPLATES_CONFIG.some(cfg => cfg.id === activeTemplate.id) && (
+                            <p className="text-[9px] text-orange-500/50 font-bold italic mt-1">{language === 'cn' ? '* 系统模版作者不可修改' : '* Read-only'}</p>
+                          )}
                         </div>
                         <div className="flex flex-col gap-0.5 relative">
                           <label className={`text-[10px] font-black uppercase tracking-widest ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('best_model')}</label>
@@ -812,9 +844,6 @@ export const TemplateEditor = React.memo(({
                           )}
                         </div>
                       </div>
-                      {INITIAL_TEMPLATES_CONFIG.some(cfg => cfg.id === activeTemplate.id) && (
-                        <p className="text-[9px] text-orange-500/50 font-bold italic mt-1">{language === 'cn' ? '* 系统模版作者不可修改' : '* Read-only'}</p>
-                      )}
                     </div>
                   )}
                 </div>
@@ -1084,6 +1113,8 @@ export const TemplateEditor = React.memo(({
                     onGenerateAITerms={onGenerateAITerms}  // 传递 AI 生成回调
                     handleShareLink={handleShareLink} // 传递分享回调
                     updateTemplateProperty={updateTemplateProperty}
+                    templates={templates}
+                    setActiveTemplateId={setActiveTemplateId}
                   />
                 </div>
 
@@ -1108,6 +1139,27 @@ export const TemplateEditor = React.memo(({
           </div>
         </div>
       </div>
+
+      {/* 关联模版选择弹窗 */}
+      <LinkTemplateModal
+        isOpen={isLinkModalOpen}
+        onClose={() => setIsLinkModalOpen(false)}
+        templates={templates}
+        currentTemplateId={activeTemplate.id}
+        language={language}
+        isDarkMode={isDarkMode}
+        onSelect={(template, selectedUrl) => {
+          const url = selectedUrl || (template.imageUrls && template.imageUrls[0]) || template.imageUrl || '';
+          const name = getLocalized(template.name, language);
+          const nextSources = [...(activeTemplate.source || []), {
+            type: 'image',
+            url,
+            templateId: template.id,
+            templateName: name,
+          }];
+          updateTemplateProperty('source', nextSources);
+        }}
+      />
     </div>
   );
 });

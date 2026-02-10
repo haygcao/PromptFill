@@ -20,6 +20,7 @@ import { deepClone, makeUniqueKey, waitForImageLoad, getLocalized, getSystemLang
 import { mergeTemplatesWithSystem, mergeBanksWithSystem } from './utils/merge';
 import { generateAITerms, polishAndSplitPrompt } from './utils/aiService';  // AI 服务
 import { uploadToICloud, downloadFromICloud } from './utils/icloud'; // iCloud 服务
+import { smartFetch } from './utils/platform'; // 跨平台 fetch
 
 // ====== 导入自定义 Hooks ======
 import { useStickyState, useAsyncStickyState, useEditorHistory, useLinkageGroups, useShareFunctions, useTemplateManagement, useServiceWorker } from './hooks';
@@ -46,7 +47,7 @@ const App = () => {
   const isSettingPage = location.pathname === '/setting';
 
   // 当前应用代码版本 (必须与 package.json 和 version.json 一致)
-  const APP_VERSION = "0.9.1";
+  const APP_VERSION = "0.9.2";
 
   // 临时功能：瀑布流样式管理
   const [masonryStyleKey, setMasonryStyleKey] = useState('poster');
@@ -346,7 +347,7 @@ const App = () => {
 
   // ====== 智能多源数据同步逻辑 ======
   const DATA_SOURCES = {
-    cloud: "http://data.tanshilong.com/data", // 宝塔后端 (最高优先级)
+    cloud: "https://data.tanshilong.com/data", // 宝塔后端 (最高优先级)
     static: "/data" // Vercel/本地 静态目录 (同步 Git)
   };
 
@@ -357,8 +358,8 @@ const App = () => {
         
         // 1. 并行获取各源版本号
         const results = await Promise.allSettled([
-          fetch(`${DATA_SOURCES.cloud}/version.json?t=${Date.now()}`).then(r => r.json()),
-          fetch(`${DATA_SOURCES.static}/version.json?t=${Date.now()}`).then(r => r.json())
+          smartFetch(`${DATA_SOURCES.cloud}/version.json?t=${Date.now()}`).then(r => r.json()),
+          smartFetch(`${DATA_SOURCES.static}/version.json?t=${Date.now()}`).then(r => r.json())
         ]);
 
         let bestSource = null;
@@ -379,8 +380,8 @@ const App = () => {
         if (bestSource) {
           console.log(`[Sync] 发现更新版本 ${maxVersion}，来源: ${bestSource}`);
           const [tplRes, bankRes] = await Promise.all([
-            fetch(`${bestSource}/templates.json`),
-            fetch(`${bestSource}/banks.json`)
+            smartFetch(`${bestSource}/templates.json`),
+            smartFetch(`${bestSource}/banks.json`)
           ]);
 
           if (tplRes.ok && bankRes.ok) {
@@ -2999,6 +3000,8 @@ const App = () => {
             <TemplateEditor
               // ===== 模板数据 =====
               activeTemplate={activeTemplate}
+              templates={templates}
+              setActiveTemplateId={handleSetActiveTemplateId}
               setSourceZoomedItem={setSourceZoomedItem}
               banks={banks}
               defaults={defaults}
