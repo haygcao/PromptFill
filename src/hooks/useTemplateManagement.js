@@ -43,18 +43,26 @@ export const useTemplateManagement = (
   t
 ) => {
   // 添加新模板
-  const handleAddTemplate = useCallback((type = 'image') => {
+  // videoSubType: 'structured' | 'freeform' | undefined (仅 type === 'video' 时有效)
+  const handleAddTemplate = useCallback((type = 'image', videoSubType) => {
     const newId = `tpl_${Date.now()}`;
     const newName = t('new_template_name');
     const newAuthor = "PromptFill User";
+
+    // 根据视频子类型决定默认内容
+    let content = t('new_template_content');
+    if (type === 'video' && videoSubType === 'structured') {
+      content = t('new_video_template_structured_content');
+    }
+
     const newTemplate = {
       id: newId,
       name: newName,
       author: newAuthor,
-      content: t('new_template_content'),
+      content: content,
       selections: {},
       tags: [],
-      type: type, // 新增：模板类型
+      type: type, // 模板类型
       bestModel: type === 'video' ? "Seedance 2.0" : "Nano Banana Pro", // 视频模版默认模型
       baseImage: "optional_base_image"
     };
@@ -63,6 +71,10 @@ export const useTemplateManagement = (
     if (type === 'video') {
       newTemplate.videoUrl = "";
       newTemplate.source = [];
+      // 记录视频子类型，方便后续识别
+      if (videoSubType) {
+        newTemplate.videoSubType = videoSubType;
+      }
     }
 
     setTemplates(prev => [...prev, newTemplate]);

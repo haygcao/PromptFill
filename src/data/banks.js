@@ -583,6 +583,54 @@ export const INITIAL_BANKS = {
     ]
   },
 
+  // 视频分镜-影视色调
+  video_color_tone: {
+    label: { cn: "影视色调", en: "Cinematic Color Tone" },
+    category: "visual",
+    options: [
+      { cn: "冷蓝调，暗部发青（如《银翼杀手2049》）", en: "Cool blue tones, teal shadows (Blade Runner 2049 style)" },
+      { cn: "暖橙调，黄金时刻质感（如《疯狂的麦克斯》）", en: "Warm orange tones, golden hour feel (Mad Max: Fury Road style)" },
+      { cn: "高对比青橙撞色（Teal & Orange）", en: "High-contrast teal and orange color grading" },
+      { cn: "低饱和灰绿调，胶片颗粒感（如《拯救大兵瑞恩》）", en: "Desaturated olive-green tones, film grain (Saving Private Ryan style)" },
+      { cn: "霓虹紫粉调，高饱和赛博感", en: "Neon purple-pink, high-saturation cyberpunk feel" },
+      { cn: "黑白高反差，黑色电影风格（Film Noir）", en: "High-contrast black and white, Film Noir style" },
+      { cn: "莫兰迪低饱和柔和调", en: "Morandi muted pastel tones" },
+      { cn: "日系清透过曝暖调", en: "Japanese overexposed warm pastel tones" }
+    ]
+  },
+
+  // 视频分镜-影视风格
+  video_art_style: {
+    label: { cn: "影视风格", en: "Cinematic Style" },
+    category: "visual",
+    options: [
+      { cn: "好莱坞大片质感（高成本电影感）", en: "Hollywood blockbuster cinematic quality" },
+      { cn: "独立电影纪实风格（手持、自然光）", en: "Indie film documentary style (handheld, natural lighting)" },
+      { cn: "日本动画电影风格（如新海诚）", en: "Japanese anime film style (Makoto Shinkai)" },
+      { cn: "港片黄金时代（暗色、霓虹、快节奏）", en: "Hong Kong golden era (dark, neon, fast-paced)" },
+      { cn: "韩式影视风格（高级感、低饱和）", en: "Korean drama cinematic style (premium, desaturated)" },
+      { cn: "复古录像带 VHS 风格", en: "Retro VHS tape aesthetic" },
+      { cn: "MV 风格（快速剪辑、视觉冲击）", en: "Music video style (fast cuts, visual impact)" },
+      { cn: "游戏 CG 过场动画风格", en: "Game CG cutscene style" }
+    ]
+  },
+
+  // 视频分镜-场景类型
+  scene_type: {
+    label: { cn: "场景类型", en: "Scene Type" },
+    category: "location",
+    options: [
+      { cn: "古代酒馆内部，烛光摇曳", en: "Ancient tavern interior, candlelight flickering" },
+      { cn: "未来都市霓虹街巷", en: "Futuristic neon-lit urban alley" },
+      { cn: "雪山之巅，云海翻涌", en: "Snow-capped mountain peak, sea of clouds" },
+      { cn: "废弃太空站走廊，红灯闪烁", en: "Abandoned space station corridor, red lights flashing" },
+      { cn: "深夜雨中的日本街道", en: "Rainy Japanese street at night" },
+      { cn: "战场废墟，硝烟弥漫", en: "Battlefield ruins, smoke-filled" },
+      { cn: "热带雨林深处，瀑布飞流", en: "Deep tropical rainforest, cascading waterfall" },
+      { cn: "赛博朋克地下酒吧", en: "Cyberpunk underground bar" }
+    ]
+  },
+
   // Fish Eye Urban Template additions
   lens_type: {
     label: { cn: "镜头类型", en: "Lens Type" },
@@ -2193,6 +2241,12 @@ export const INITIAL_DEFAULTS = {
   // 解剖学人物画默认值
   anatomy_teaching_style: { cn: "Proko 风格（简化几何、教学导向、清晰构造线）", en: "Proko style (simplified geometry, educational focus, clear construction lines)" },
   construction_line_color: { cn: "紫色/紫罗兰色（主构造线）", en: "Purple/violet sketch lines (primary construction)" },
+  // 视频分镜-影视色调默认值
+  video_color_tone: { cn: "冷蓝调，暗部发青（如《银翼杀手2049》）", en: "Cool blue tones, teal shadows (Blade Runner 2049 style)" },
+  // 视频分镜-影视风格默认值
+  video_art_style: { cn: "好莱坞大片质感（高成本电影感）", en: "Hollywood blockbuster cinematic quality" },
+  // 视频分镜-场景类型默认值
+  scene_type: { cn: "古代酒馆内部，烛光摇曳", en: "Ancient tavern interior, candlelight flickering" },
   // 酒馆武打戏视频默认值
   fight_style: { cn: "武侠飘逸风（轻功、剑气、衣袂飘飘）", en: "Wuxia elegant style (light kung fu, sword aura, flowing robes)" },
   camera_rhythm: { cn: "快速切换蒙太奇（多角度快速剪辑）", en: "Rapid montage cutting (multi-angle fast edits)" },

@@ -29,7 +29,7 @@ import { useStickyState, useAsyncStickyState, useEditorHistory, useLinkageGroups
 import { Variable, VisualEditor, PremiumButton, EditorToolbar, Lightbox, TemplatePreview, TemplateEditor, TemplatesSidebar, BanksSidebar, InsertVariableModal, AddBankModal, DiscoveryView, MobileSettingsView, SettingsView, Sidebar, TagSidebar } from './components';
 import { ImagePreviewModal, SourceAssetModal, AnimatedSlogan, MobileAnimatedSlogan } from './components/preview';
 import { MobileBottomNav } from './components/mobile';
-import { ShareOptionsModal, CopySuccessModal, ImportTokenModal, ShareImportModal, CategoryManagerModal, ConfirmModal, AddTemplateTypeModal } from './components/modals';
+import { ShareOptionsModal, CopySuccessModal, ImportTokenModal, ShareImportModal, CategoryManagerModal, ConfirmModal, AddTemplateTypeModal, VideoSubTypeModal } from './components/modals';
 import { DataUpdateNotice, AppUpdateNotice } from './components/notifications';
 
 
@@ -69,6 +69,7 @@ const App = () => {
   const [isSmartSplitLoading, setIsSmartSplitLoading] = useState(false);
   const [isSmartSplitConfirmOpen, setIsSmartSplitConfirmOpen] = useState(false);
   const [isAddTemplateTypeModalOpen, setIsAddTemplateTypeModalOpen] = useState(false);
+  const [isVideoSubTypeModalOpen, setIsVideoSubTypeModalOpen] = useState(false);
 
   // 包装 setActiveTemplateId，在智能拆分期间防止切换
   const handleSetActiveTemplateId = React.useCallback((id) => {
@@ -844,8 +845,22 @@ const App = () => {
   }, []);
 
   const onConfirmAddTemplate = React.useCallback((type) => {
-    performAddTemplate(type);
-    setIsAddTemplateTypeModalOpen(false);
+    if (type === 'video') {
+      // 视频模板：关闭类型弹窗，打开子类型弹窗
+      setIsAddTemplateTypeModalOpen(false);
+      setIsVideoSubTypeModalOpen(true);
+    } else {
+      // 图片模板：直接创建并跳转到编辑页
+      performAddTemplate(type);
+      setIsAddTemplateTypeModalOpen(false);
+      setDiscoveryView(false);
+    }
+  }, [performAddTemplate]);
+
+  const onConfirmVideoSubType = React.useCallback((subType) => {
+    performAddTemplate('video', subType);
+    setIsVideoSubTypeModalOpen(false);
+    setDiscoveryView(false);
   }, [performAddTemplate]);
 
   const requestDeleteTemplate = React.useCallback((id, e) => {
@@ -3303,6 +3318,15 @@ const App = () => {
         onSelect={onConfirmAddTemplate}
         isDarkMode={isDarkMode}
         language={language}
+      />
+
+      <VideoSubTypeModal
+        isOpen={isVideoSubTypeModalOpen}
+        onClose={() => setIsVideoSubTypeModalOpen(false)}
+        onSelect={onConfirmVideoSubType}
+        isDarkMode={isDarkMode}
+        language={language}
+        t={t}
       />
 
       {/* --- Action Confirm Modal --- */}

@@ -3,6 +3,7 @@ import {
   ImageIcon, ArrowUpRight, Search, Plus, Play, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { getLocalized } from '../utils/helpers';
+import { PremiumButton } from './PremiumButton';
 import { Sidebar } from './Sidebar';
 import { TagSidebar } from './TagSidebar';
 import { TemplateCarousel } from './TemplateCarousel';
@@ -433,25 +434,40 @@ export const DiscoveryView = React.memo(({
         className="flex-1 flex flex-col overflow-hidden relative z-10 p-4 md:p-5 lg:pt-12 lg:pb-7 lg:px-7"
       >
           <div className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-12 overflow-hidden pb-4 lg:pb-8 pt-0 px-2 lg:px-6">
-              {/* Left Side: Logo & Slogan */}
-              <header className="flex flex-col justify-center items-center lg:items-start lg:w-[280px] xl:w-[320px] flex-shrink-0 px-4 lg:pl-6 lg:pr-2 gap-6">
-                  <div className="w-full max-w-[320px] scale-75 sm:scale-85 lg:scale-90 xl:scale-100 origin-center lg:origin-left flex flex-col gap-3">
-                      <h1 className="sr-only">提示词填空器 (Prompt Fill) - 专业的 AI 提示词管理与优化工具</h1>
-                      <img 
-                          src={isDarkMode ? "/Title_Dark.svg" : "/Title.svg"} 
-                          alt="提示词填空器 (Prompt Fill) - 专业的 AI 提示词管理与优化工具" 
-                          className="w-full h-auto"
-                      />
-                      <p className={`text-xs lg:text-sm font-medium leading-relaxed opacity-80 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        提示词填空器 (Prompt Fill) 是一款专业的 AI 提示词管理工具，支持模版化、变量填充及一键优化。
-                      </p>
+              {/* Left Side: Logo & Slogan & Create Button */}
+              <header className="flex flex-col items-center lg:items-start lg:w-[280px] xl:w-[320px] flex-shrink-0 px-4 lg:pl-6 lg:pr-2 lg:py-6">
+                  {/* 区块1: Logo + 描述 + Slogan */}
+                  <div className="flex flex-col items-center lg:items-start gap-6 w-full">
+                      <div className="w-full max-w-[320px] scale-75 sm:scale-85 lg:scale-90 xl:scale-100 origin-center lg:origin-left flex flex-col gap-3">
+                          <h1 className="sr-only">提示词填空器 (Prompt Fill) - 专业的 AI 提示词管理与优化工具</h1>
+                          <img 
+                              src={isDarkMode ? "/Title_Dark.svg" : "/Title.svg"} 
+                              alt="提示词填空器 (Prompt Fill) - 专业的 AI 提示词管理与优化工具" 
+                              className="w-full h-auto"
+                          />
+                          <p className={`text-xs lg:text-sm font-medium leading-relaxed opacity-80 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            提示词填空器 (Prompt Fill) 是一款专业的 AI 提示词管理工具，支持模版化、变量填充及一键优化。
+                          </p>
+                      </div>
+                      <div className="w-full scale-90 lg:scale-95 xl:scale-100 origin-center lg:origin-left min-h-[80px]">
+                        <AnimatedSlogan isActive={isSloganActive} language={language} isDarkMode={isDarkMode} />
+                      </div>
                   </div>
-                  <div className="w-full scale-90 lg:scale-95 xl:scale-100 origin-center lg:origin-left">
-                    <AnimatedSlogan isActive={isSloganActive} language={language} isDarkMode={isDarkMode} />
-                  </div>
-                  {/* 福字交互区域 - 在 Slogan 下方居中 */}
-                  <div className="w-full flex justify-center lg:justify-center">
+                  {/* 区块2: 福字交互区域 - 在剩余空间中垂直居中 */}
+                  <div className="w-full flex-1 flex items-center justify-center">
                     <FuCharacter isDarkMode={isDarkMode} />
+                  </div>
+                  {/* 区块3: 新建模版按钮 - 贴底 */}
+                  <div className="w-full flex-shrink-0">
+                      <PremiumButton
+                          onClick={handleAddTemplate}
+                          icon={Plus}
+                          active={true}
+                          isDarkMode={isDarkMode}
+                          className="w-full size-lg"
+                      >
+                          {t('new_template')}
+                      </PremiumButton>
                   </div>
               </header>
 

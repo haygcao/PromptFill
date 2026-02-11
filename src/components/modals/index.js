@@ -9,4 +9,5 @@ export { default as ShareImportModal } from './ShareImportModal';
 export { CategoryManagerModal } from './CategoryManagerModal';
 export { ConfirmModal } from './ConfirmModal';
 export { AddTemplateTypeModal } from './AddTemplateTypeModal';
+export { VideoSubTypeModal } from './VideoSubTypeModal';
 export { LinkTemplateModal } from './LinkTemplateModal';
