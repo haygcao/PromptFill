@@ -54,6 +54,19 @@ export const SettingsView = ({
   
   const updateLogs = language === 'cn' ? [
     { 
+      version: 'V1.0.0', 
+      date: '2026年3月15日', 
+      time: '10:00 PM',
+      title: '正式版发布 · 智能拆分全面升级',
+      type: 'MAJOR',
+      content: [
+        '智能拆分全面升级：一键拆分提示词，自动标注变量并生成双语模板，速度提升数倍。',
+        '变量自动识别：支持 []、「」、{} 括号标记的内容优先识别为可替换变量。',
+        '拆分快照系统：拆分后支持查看前后对比并一键还原，切换模板自动清除快照。',
+        '体验优化：修复首次上传图片时出现破碎图片的问题；刷新模板弹窗内容过长时支持滚动。',
+      ]
+    },
+    { 
       version: 'V0.9.2', 
       date: '2026年2月10日', 
       time: '10:00 AM',
@@ -297,6 +310,19 @@ export const SettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V1.0.0', 
+      date: 'Mar 15, 2026', 
+      time: '10:00 PM',
+      title: 'Official Release · Smart Split Upgrade',
+      type: 'MAJOR',
+      content: [
+        'Smart Split Upgrade: One-click prompt splitting with automatic bilingual template generation, much faster.',
+        'Variable Auto-Detection: Content wrapped in [], 「」, or {} is prioritized as replaceable variables.',
+        'Split Snapshot System: View before/after comparison and restore with one click.',
+        'UX Fixes: Fixed broken image on first upload; long refresh notice modal now scrollable.',
+      ]
+    },
     { 
       version: 'V0.9.2', 
       date: 'Feb 10, 2026', 

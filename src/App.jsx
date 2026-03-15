@@ -53,7 +53,7 @@ const App = () => {
   const navigate = useNavigate();
 
   // 当前应用代码版本 (必须与 package.json 和 version.json 一致)
-  const APP_VERSION = "0.9.2";
+  const APP_VERSION = "1.0.0";
 
   // 临时功能：瀑布流样式管理
   const [masonryStyleKey, setMasonryStyleKey] = useState('poster');
@@ -1459,14 +1459,18 @@ ${tagsHint ? `\n${tagsHint}` : ''}
   const getDebugSystemPromptLite = React.useCallback(() => {
     return `你是提示词变量标注专家。用户给你一段 AI 图像/视频提示词，你需要找出其中"换掉就整体变了"的核心词，用 {{变量名::原词}} 的格式标注。
 
-格式：{{变量名::原词}}，"原词"必须与原文完全一致。
+格式：{{变量名::原词}}，"原词"必须与原文完全一致（不含括号本身）。
 
 规则：
 1. 只标记 2-5 个核心可替换词，不要过多
 2. 颜色、材质、技术参数、修饰词不要标记
 3. 直接输出标注后的原文，不加任何解释或 Markdown
 4. 变量名用小写英文+下划线
-5. 优先复用以下常用变量名（按类别）：
+5. ⚠️ 最重要：原文中用 [] 或 「」 或 {} 包裹的内容是用户明确标记的可替换词，必须优先标记为变量！标注时去掉原始括号，将内容提取为变量
+   示例：[pink and burgundy] → {{background_color::pink and burgundy}}
+   示例：[@RealMe+] → {{profile_name::@RealMe+}}
+   示例：「宇航服」 → {{clothing::宇航服}}
+6. 优先复用以下常用变量名（按类别）：
   人物：subject、character_type、character_name、expressions、hair_style
   服饰：clothing、clothing_male、clothing_female、accessory
   动作：action_pose、action_status、dynamic_action
@@ -1475,13 +1479,20 @@ ${tagsHint ? `\n${tagsHint}` : ''}
   镜头：camera_angle、lens_type、special_view
   城市：city_name
   物品：design_item、product_category
-6. 不匹配时可自创合理的变量名
+  社交：social_media、profile_name
+7. 不匹配时可自创合理的变量名
 
 示例输入：
 一只可爱的柴犬穿着宇航服，坐在月球表面，卡通风格，8K渲染
 
 示例输出：
 一只可爱的{{character_type::柴犬}}穿着{{clothing::宇航服}}，坐在{{background_scene::月球表面}}，卡通风格，8K渲染
+
+示例输入2：
+The background is [pink and burgundy]. The profile name is [@RealMe+].
+
+示例输出2：
+The background is {{background_color::pink and burgundy}}. The profile name is {{profile_name::@RealMe+}}.
 
 现在请标注以下提示词：`;
   }, []);
@@ -2076,7 +2087,8 @@ ${tagsHint ? `\n${tagsHint}` : ''}
                       if (t.id !== activeTemplateId) return t;
                       
                       if (imageUpdateMode === 'add') {
-                        const newUrls = [...(t.imageUrls || [t.imageUrl]), reader.result];
+                        const existing = (t.imageUrls && t.imageUrls.length > 0) ? t.imageUrls : (t.imageUrl ? [t.imageUrl] : []);
+                        const newUrls = [...existing, reader.result];
                         return { ...t, imageUrls: newUrls, imageUrl: newUrls[0] };
                       } else if (imageUpdateMode === 'add_source') {
                         // 新增：向 source 数组中添加图片或视频素材
@@ -2187,7 +2199,8 @@ ${tagsHint ? `\n${tagsHint}` : ''}
             // 更新视频模板的封面图
             return { ...t, imageUrl: imageUrlInput };
           } else if (imageUpdateMode === 'add') {
-            const newUrls = [...(t.imageUrls || [t.imageUrl]), imageUrlInput];
+            const existing = (t.imageUrls && t.imageUrls.length > 0) ? t.imageUrls : (t.imageUrl ? [t.imageUrl] : []);
+            const newUrls = [...existing, imageUrlInput];
             return { ...t, imageUrls: newUrls, imageUrl: newUrls[0] };
           } else if (imageUpdateMode === 'add_source') {
             // 向 source 数组中添加 URL 素材，自动判断视频/图片类型
@@ -3789,7 +3802,7 @@ ${tagsHint ? `\n${tagsHint}` : ''}
                 <X size={20} />
               </button>
             </div>
-            <div className="p-8">
+            <div className="p-8 max-h-[60vh] overflow-y-auto">
               <p className={`text-base font-medium leading-relaxed whitespace-pre-line ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 {noticeMessage}
               </p>

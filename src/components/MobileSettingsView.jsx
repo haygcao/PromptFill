@@ -54,6 +54,17 @@ export const MobileSettingsView = ({
   // 完善后的更新日志 (同步桌面端内容)
   const updateLogs = language === 'cn' ? [
     { 
+      version: 'V1.0.0', 
+      date: '2026-03-15', 
+      title: '正式版发布 · 智能拆分全面升级',
+      content: [
+        '智能拆分升级：一键拆分提示词，自动生成双语模板',
+        '支持 []「」{} 括号内容优先识别为变量',
+        '拆分快照：支持前后对比与一键还原',
+        '修复首次上传图片破碎、刷新弹窗过长等问题',
+      ]
+    },
+    { 
       version: 'V0.9.2', 
       date: '2026-02-10', 
       title: '支持素材使用模版素材',
@@ -200,6 +211,17 @@ export const MobileSettingsView = ({
       ]
     }
   ] : [
+    { 
+      version: 'V1.0.0', 
+      date: '2026-03-15', 
+      title: 'Official Release · Smart Split Upgrade',
+      content: [
+        'Smart Split: One-click splitting with auto bilingual output',
+        'Auto-detect [], 「」, {} as replaceable variables',
+        'Split snapshot with before/after comparison',
+        'Fixed broken image on first upload & long modal scroll',
+      ]
+    },
     { 
       version: 'V0.9.2', 
       date: '2026-02-10', 

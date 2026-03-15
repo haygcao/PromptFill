@@ -394,7 +394,9 @@ export const polishAndSplitLite = async ({ rawPrompt, systemPrompt, apiKey, mode
   varMatches.forEach(m => {
     const [, key, originalWord] = m;
     if (!varMap.has(key)) {
-      varMap.set(key, originalWord?.trim() || key);
+      // 清理残留的括号符号 []「」{}
+      const cleaned = (originalWord?.trim() || key).replace(/^[\[「{]+|[\]」}]+$/g, '');
+      varMap.set(key, cleaned);
     }
   });
 

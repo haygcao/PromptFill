@@ -40,7 +40,7 @@
 /**
  * 模板系统版本号，每次更新 templates.js 或 banks.js 时请更新此版本号
  */
-export const SYSTEM_DATA_VERSION = "0.9.3";
+export const SYSTEM_DATA_VERSION = "1.0.0";
 
 /**
  * 分享功能正式环境域名（扫码导入需使用公网可访问地址）
@@ -2102,6 +2102,16 @@ export const TEMPLATE_IMPORTED_MMQC6OK1 = {
   en: `A photo showing an extremely crowded {{location}} carriage interior with people standing in a row for a full-body shot. A huge, cute {{character_type}} is looking at the camera, riding the subway through {{city_name}} city traffic.`
 };
 
+export const TEMPLATE_IMPORTED_MMRP53JL = {
+  cn: `创建一张3D {{art_style}} 风格的插画。画面中是一个全身 {{character_type}} 从 Instagram 帖子的边框中探出头来，仿佛她是一个社交媒体角色。背景是 {{background_color}}，采用神经线条画风格。女孩快乐、甜美，大眼睛，带着微笑。边框中显示用户名：{{profile_name}}。添加 Instagram 风格的“点赞”、“评论”和“发送”图标。一只手托着边框。3:4 格式`,
+  en: `Create a 3D {{art_style}} illustration. Picture a full-length {{character_type}} peeking out of the frame of an Instagram post, as if she were a social media character. The background is {{background_color}} in the style of neurography. The girl is joyful, sweet, with wide eyes and a smile. The profile name is indicated in the frame: {{profile_name}}. Add Instagram-style "like", "comment" and "send" icons. A hand holds the frame. 3:4 format`
+};
+
+export const TEMPLATE_IMPORTED_MMRQ1ZN6 = {
+  cn: `一幅电影感插画，采用清晰的 {{art_style}} 风格。一位身材高挑的年轻女子，长发飘逸，正骑着 {{design_item}} 沿着沿海山顶狭窄的混凝土小径笔直冲下。她修长、双腿修长的轮廓增强了优雅的垂直构图。她的身体姿态自然地与道路的坡度对齐，双肩水平且平行于小径，臀部居中，没有过度扭转。她面向前方，朝运动方向看去。一只脚稳稳地踩在滑板的前部，后脚自然地靠近尾部，双脚与滑板对齐。她的双腿笔直放松，膝盖没有弯曲。滑板笔直且完全平行于下坡小径，没有侧倾，表现出受控且自信的运动。她穿着轻盈的 {{clothing}}，在海风中向后飘动。布料轻轻拖在身后，突显她高挑优雅的身姿。由于向前运动，她的长发直接向后飘动。没有背包。相机位于她正后方，角度略高，以小径为中心。地平线笔直稳定，没有倾斜或荷兰角。透视强调深度和陡峭的下坡。山顶小径被郁郁葱葱的绿草环绕，向下延伸至远处全景般的绿松石海岸。一座海滨小镇沿着弯曲的海岸线分布。巨大的积云塔耸立在蔚蓝的天空中，阳光照亮海面。垂直构图，9:16 宽高比，超高分辨率，动态而稳定的构图，优雅的比例，动漫电影剧照，杰作品质。`,
+  en: `A cinematic, hand-painted anime illustration in a clear {{art_style}} style. A tall young woman with long flowing brown hair is riding a {{design_item}} straight downhill along a narrow concrete path on top of a coastal hill. She has a slender, long-legged silhouette that enhances the elegant vertical composition. Her body posture is aligned naturally with the slope of the road shoulders level and parallel to the path, hips centered, no excessive twisting. She is facing forward in the direction of motion. One foot is placed firmly at the front of the skateboard, the back foot positioned naturally near the tail, both feet aligned with the board. Her legs are straight and relaxed, not bent at the knees. The skateboard is straight and perfectly parallel to the downhill path, not tilted sideways, expressing controlled and confident movement. She wears a lightweight {{clothing}} flowing backward in the ocean wind. The fabric gently trails behind her, emphasizing her tall and graceful figure. Her long hair streams directly behind her due to forward motion. No backpack. The camera is positioned directly behind her at a slightly elevated angle, centered on the path. The horizon line is straight and stable no tilted or dutch angle. The perspective emphasizes depth and the steep downhill slope. The hilltop path is surrounded by lush green grass, descending toward a panoramic turquoise coastline far below. A seaside town spreads along the curved shore. Massive cumulus clouds tower in a rich blue sky, sunlight illuminating the ocean surface. Vertical composition, 9:16 aspect ratio, ultra high resolution, dynamic yet stable composition, elegant proportions, anime movie still, masterpiece quality.`
+};
+
 export const INITIAL_TEMPLATES_CONFIG = [
   {
     id: "tpl_photo_grid",
@@ -3036,5 +3046,76 @@ export const INITIAL_TEMPLATES_CONFIG = [
     language: ["cn","en"],
     bestModel: "Nano Banana Pro",
     baseImage: "no_base_image"
+  }
+,
+  {
+    id: "tpl_imported_mmrp53jl_社交卡片",
+    name: "社交卡片",
+    content: TEMPLATE_IMPORTED_MMRP53JL,
+    imageUrl: "https://s3.bmp.ovh/2026/03/15/Yc01hJ3Q.jpg",
+    author: "@",
+    selections: {
+      art_style: {
+        cn: "卡通风格",
+        en: "cartoon-style"
+      },
+      character_type: {
+        cn: "女性",
+        en: "woman"
+      },
+      background_color: {
+        cn: "粉色和勃艮第红",
+        en: "pink and burgundy"
+      },
+      profile_name: {
+        cn: "@RealMe+",
+        en: "@RealMe+"
+      },
+      "character_type-0": {
+        cn: "男员工",
+        en: "male employee"
+      },
+      "background_color-0": "mint green and coral",
+      "profile_name-0": "@Prompt Fill"
+    },
+    tags: [],
+    language: ["cn","en"],
+    bestModel: "Nano Banana Pro",
+    baseImage: "optional_base_image"
+  }
+,
+  {
+    id: "tpl_imported_mmrq1zn6_滑板女孩",
+    name: "滑板女孩",
+    content: TEMPLATE_IMPORTED_MMRQ1ZN6,
+    imageUrl: "https://s3.bmp.ovh/2026/03/15/NeHsU0GX.jpg",
+    author: "PromptFill User",
+    selections: {
+      art_style: {
+        cn: "新海诚 × 吉卜力工作室",
+        en: "Makoto Shinkai × Studio Ghibli"
+      },
+      design_item: {
+        cn: "滑板",
+        en: "skateboard"
+      },
+      clothing: {
+        cn: "海沫绿连衣裙",
+        en: "seafoam green dress"
+      },
+      "design_item-0": "滑板",
+      "clothing-0": {
+        cn: "海沫绿连衣裙",
+        en: "seafoam green dress"
+      },
+      "art_style-0": {
+        cn: "新海诚 × 吉卜力工作室",
+        en: "Makoto Shinkai × Studio Ghibli"
+      }
+    },
+    tags: [],
+    language: ["cn","en"],
+    bestModel: "Nano Banana Pro",
+    baseImage: "optional_base_image"
   }
 ];
